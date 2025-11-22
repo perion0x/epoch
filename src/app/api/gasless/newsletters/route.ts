@@ -74,7 +74,7 @@ export async function POST(request: NextRequest) {
         tx.pure.bool(accessModel?.isNftGated ?? false),
         tx.pure.bool(accessModel?.isHybrid ?? false),
         tx.pure.vector('address', nftCollection ? [nftCollection] : []),
-        tx.pure.address(config.contracts.sealPolicyPackageId),
+        tx.pure.address(config.contracts.sealPolicyPackageId.padEnd(66, '0')),
       ],
     });
 
