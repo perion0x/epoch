@@ -58,6 +58,13 @@ export async function POST(request: NextRequest) {
     const sponsorAddress = gasStation.getSponsorAddress();
     tx.setGasOwner(sponsorAddress);
 
+    console.log('📦 Package IDs:', {
+      newsletterPackageId: config.contracts.newsletterPackageId,
+      sealPolicyPackageId: config.contracts.sealPolicyPackageId,
+      sponsorAddress,
+      userAddress,
+    });
+
     tx.moveCall({
       target: `${config.contracts.newsletterPackageId}::newsletter::create_and_share_newsletter`,
       arguments: [
