@@ -71,6 +71,10 @@ export async function POST(request: NextRequest) {
       userAddress,
     });
 
+    // Normalize package ID to valid Sui address (32 bytes = 64 hex chars)
+    // Take first 64 chars after 0x
+    const normalizedSealAddress = config.contracts.newsletterPackageId.substring(0, 66);
+    
     tx.moveCall({
       target: `${config.contracts.newsletterPackageId}::newsletter::create_and_share_newsletter`,
       arguments: [
@@ -80,7 +84,7 @@ export async function POST(request: NextRequest) {
         tx.pure.bool(accessModel?.isNftGated ?? false),
         tx.pure.bool(accessModel?.isHybrid ?? false),
         tx.pure.option('address', nftCollection || null),
-        tx.pure.address(sponsorAddress), // Use sponsor address as seal policy address
+        tx.pure.address(normalizedSealAddress),
       ],
     });
 
