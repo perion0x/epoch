@@ -11,8 +11,8 @@ export const config = {
     keyServerUrl: process.env.NEXT_PUBLIC_SEAL_KEY_SERVER_URL || 'https://seal-testnet.sui.io',
   },
   contracts: {
-    newsletterPackageId: process.env.NEXT_PUBLIC_NEWSLETTER_PACKAGE_ID || '',
-    sealPolicyPackageId: process.env.NEXT_PUBLIC_SEAL_POLICY_PACKAGE_ID || '',
+    newsletterPackageId: (process.env.NEXT_PUBLIC_NEWSLETTER_PACKAGE_ID || '').trim(),
+    sealPolicyPackageId: (process.env.NEXT_PUBLIC_SEAL_POLICY_PACKAGE_ID || '').trim(),
   },
 } as const;
 
