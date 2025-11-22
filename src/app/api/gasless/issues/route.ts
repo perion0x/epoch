@@ -44,8 +44,8 @@ export async function POST(request: NextRequest) {
       ],
     });
     const walrusClient = new WalrusClient(
-      config.walrus.publisherUrl,
-      config.walrus.aggregatorUrl
+      config.walrus.aggregatorUrl,
+      config.walrus.publisherUrl
     );
 
     // Get or create keypair for user (reuses existing if available)
