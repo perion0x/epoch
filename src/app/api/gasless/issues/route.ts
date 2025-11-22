@@ -109,6 +109,12 @@ export async function POST(request: NextRequest) {
     const txBytes = await tx.build({ client: suiClient });
     const userSignature = await keypairManager.signTransaction(userId, txBytes);
 
+    console.log('📝 Transaction details:', {
+      userAddress,
+      newsletterId,
+      sender: userAddress,
+    });
+
     // Sponsor transaction
     const sponsorshipResult = await gasStation.sponsorTransaction({
       transactionBytes: txBytes,
@@ -129,11 +135,18 @@ export async function POST(request: NextRequest) {
   } catch (error: any) {
     console.error('Failed to publish gasless issue:', error);
     
+    // Check for Move abort error (ENotCreator)
+    let errorMessage = error.message || 'Unknown error';
+    if (error.message?.includes('MoveAbort') && error.message?.includes('1)')) {
+      errorMessage = 'You are not the creator of this newsletter. Please use the same browser/session that created the newsletter, or create a new newsletter.';
+    }
+    
     return NextResponse.json(
       {
         error: 'Failed to publish issue',
-        message: error.message || 'Unknown error',
+        message: errorMessage,
         code: error.code || 'INTERNAL_ERROR',
+        details: error.cause?.executionErrorSource || error.toString(),
       },
       { status: 500 }
     );
