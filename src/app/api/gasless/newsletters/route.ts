@@ -102,10 +102,33 @@ export async function POST(request: NextRequest) {
       transactionType: TransactionType.CREATE_NEWSLETTER,
     });
 
-    // Step 6: Return success response
+    // Step 6: Get the created newsletter object ID from transaction effects
+    const txResponse = await suiClient.waitForTransaction({
+      digest: sponsorshipResult.transactionDigest,
+      options: {
+        showEffects: true,
+        showObjectChanges: true,
+      },
+    });
+
+    // Find the created newsletter object
+    const createdObjects = txResponse.objectChanges?.filter(
+      (change: any) => change.type === 'created' && change.objectType?.includes('::newsletter::Newsletter')
+    );
+
+    const newsletterId = createdObjects?.[0]?.objectId;
+
+    if (!newsletterId) {
+      console.error('Failed to extract newsletter ID from transaction:', txResponse);
+      throw new Error('Newsletter created but ID could not be extracted');
+    }
+
+    console.log('✅ Newsletter created with ID:', newsletterId);
+
+    // Step 7: Return success response
     return NextResponse.json({
       success: true,
-      newsletterId: sponsorshipResult.transactionDigest, // Will extract from events in production
+      newsletterId,
       transactionDigest: sponsorshipResult.transactionDigest,
       userAddress,
       gasUsed: sponsorshipResult.gasUsed,
