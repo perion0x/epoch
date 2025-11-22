@@ -52,8 +52,12 @@ export class WalrusClient {
   async store(content: Uint8Array): Promise<BlobId> {
     return this.withRetry(async () => {
       try {
+        const url = `${this.publisherUrl}/v1/blobs?epochs=5`;
+        console.log(`📡 Walrus store URL: ${url}`);
+        console.log(`📦 Content size: ${content.length} bytes`);
+        
         // Walrus requires epochs parameter - store for 5 epochs (~1 day on testnet)
-        const response = await fetch(`${this.publisherUrl}/v1/blobs?epochs=5`, {
+        const response = await fetch(url, {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/octet-stream',
@@ -61,8 +65,11 @@ export class WalrusClient {
           body: content as BodyInit,
         });
 
+        console.log(`📊 Walrus response status: ${response.status} ${response.statusText}`);
+
         if (!response.ok) {
           const errorText = await response.text().catch(() => 'Unknown error');
+          console.error(`❌ Walrus error response: ${errorText}`);
           throw new WalrusError(
             `Failed to store content on Walrus: ${response.status} ${response.statusText} - ${errorText}`
           );
