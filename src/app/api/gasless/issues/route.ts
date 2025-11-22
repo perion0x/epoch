@@ -86,11 +86,11 @@ export async function POST(request: NextRequest) {
       arguments: [
         tx.object(newsletterId),
         tx.pure.string(title),
-        tx.pure(blobIdBytes, 'vector<u8>'),
-        tx.pure(publicRangesStart, 'vector<u64>'),
-        tx.pure(publicRangesEnd, 'vector<u64>'),
-        tx.pure(encryptedRangesStart, 'vector<u64>'),
-        tx.pure(encryptedRangesEnd, 'vector<u64>'),
+        tx.pure.vector('u8', blobIdBytes),
+        tx.pure.vector('u64', publicRangesStart),
+        tx.pure.vector('u64', publicRangesEnd),
+        tx.pure.vector('u64', encryptedRangesStart),
+        tx.pure.vector('u64', encryptedRangesEnd),
         tx.pure.bool(hasPremium),
       ],
     });
