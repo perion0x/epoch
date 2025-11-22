@@ -20,9 +20,19 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
     const { userId, newsletterId, title, publicContent, premiumContent } = body;
 
+    console.log('📥 Request body:', { userId, newsletterId, title, publicContentLength: publicContent?.length, hasPremium: !!premiumContent });
+
     if (!userId || !newsletterId || !title || !publicContent) {
       return NextResponse.json(
         { error: 'Missing required fields' },
+        { status: 400 }
+      );
+    }
+
+    // Validate newsletterId format (should be a valid Sui object ID)
+    if (!newsletterId.startsWith('0x') || newsletterId.length !== 66) {
+      return NextResponse.json(
+        { error: `Invalid newsletter ID format: ${newsletterId}. Expected 66-character hex string starting with 0x` },
         { status: 400 }
       );
     }
