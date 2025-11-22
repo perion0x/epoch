@@ -53,7 +53,7 @@ export class WalrusClient {
     return this.withRetry(async () => {
       try {
         // Walrus requires epochs parameter - store for 5 epochs (~1 day on testnet)
-        const response = await fetch(`${this.publisherUrl}/v1/store?epochs=5`, {
+        const response = await fetch(`${this.publisherUrl}/v1/blobs?epochs=5`, {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/octet-stream',
