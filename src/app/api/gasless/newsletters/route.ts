@@ -73,8 +73,8 @@ export async function POST(request: NextRequest) {
         tx.pure.bool(accessModel?.isFree ?? true),
         tx.pure.bool(accessModel?.isNftGated ?? false),
         tx.pure.bool(accessModel?.isHybrid ?? false),
-        tx.pure.vector('address', nftCollection ? [nftCollection] : []),
-        tx.pure.address(config.contracts.sealPolicyPackageId.padEnd(66, '0')),
+        tx.pure.option('address', nftCollection || null),
+        tx.pure.address(config.contracts.newsletterPackageId), // Use newsletter package as seal for now
       ],
     });
 
