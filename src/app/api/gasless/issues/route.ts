@@ -60,22 +60,38 @@ export async function POST(request: NextRequest) {
     
     console.log('✅ Walrus upload:', blobId);
 
-    // Calculate content boundary
+    // Calculate content boundaries
     const publicBoundary = publicContent.length;
+    const hasPremium = !!premiumContent;
+    
+    // Build ranges for public and encrypted content
+    // Public range: from 0 to publicBoundary
+    const publicRangesStart = [0];
+    const publicRangesEnd = [publicBoundary];
+    
+    // Encrypted range: from publicBoundary to end (if premium content exists)
+    const encryptedRangesStart = hasPremium ? [publicBoundary] : [];
+    const encryptedRangesEnd = hasPremium ? [fullContent.length] : [];
 
     // Build transaction
     const tx = new Transaction();
     tx.setSender(userAddress);
     tx.setGasOwner(gasStation.getSponsorAddress());
 
+    // Convert blob ID string to bytes
+    const blobIdBytes = Array.from(new TextEncoder().encode(blobId));
+
     tx.moveCall({
       target: `${config.contracts.newsletterPackageId}::issue::publish_and_share_issue`,
       arguments: [
         tx.object(newsletterId),
         tx.pure.string(title),
-        tx.pure.string(blobId),
-        tx.pure.u64(publicBoundary),
-        tx.pure.u64(fullContent.length),
+        tx.pure(blobIdBytes, 'vector<u8>'),
+        tx.pure(publicRangesStart, 'vector<u64>'),
+        tx.pure(publicRangesEnd, 'vector<u64>'),
+        tx.pure(encryptedRangesStart, 'vector<u64>'),
+        tx.pure(encryptedRangesEnd, 'vector<u64>'),
+        tx.pure.bool(hasPremium),
       ],
     });
 
