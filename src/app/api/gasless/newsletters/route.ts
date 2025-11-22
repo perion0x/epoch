@@ -80,7 +80,7 @@ export async function POST(request: NextRequest) {
         tx.pure.bool(accessModel?.isNftGated ?? false),
         tx.pure.bool(accessModel?.isHybrid ?? false),
         tx.pure.option('address', nftCollection || null),
-        tx.pure.address(config.contracts.newsletterPackageId), // Use newsletter package as seal for now
+        tx.pure('address', config.contracts.newsletterPackageId), // Pass as raw address type
       ],
     });
 
