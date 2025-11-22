@@ -9,6 +9,8 @@ import { SuiClient } from '@mysten/sui/client';
 import { Transaction } from '@mysten/sui/transactions';
 import { GasStationService, TransactionType } from '@/services/gas-station';
 import { KeypairManager } from '@/services/keypair-manager';
+import { Ed25519PublicKey } from '@mysten/sui/keypairs/ed25519';
+import { fromBase64 } from '@mysten/sui/utils';
 import { config } from '@/config/environment';
 
 /**
@@ -48,7 +50,11 @@ export async function POST(request: NextRequest) {
 
     // Step 1: Get or create keypair for user
     const userKeypair = await keypairManager.getOrCreateKeypair(userId);
-    const userAddress = await keypairManager.getUserAddress(userId);
+    
+    // Get address from the keypair we just got/created
+    const publicKeyBytes = fromBase64(userKeypair.publicKey);
+    const publicKey = new Ed25519PublicKey(publicKeyBytes);
+    const userAddress = publicKey.toSuiAddress();
 
     // Step 2: Build newsletter creation transaction
     const tx = new Transaction();
@@ -104,12 +110,15 @@ export async function POST(request: NextRequest) {
     });
   } catch (error: any) {
     console.error('Failed to create gasless newsletter:', error);
+    console.error('Error stack:', error.stack);
+    console.error('Error cause:', error.cause);
     
     return NextResponse.json(
       {
         error: 'Failed to create newsletter',
         message: error.message || 'Unknown error',
         code: error.code || 'INTERNAL_ERROR',
+        details: error.cause?.message || error.toString(),
       },
       { status: 500 }
     );
