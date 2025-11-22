@@ -1,10 +1,10 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { publishGaslessIssue } from '@/services/gasless-issue';
 
-export default function TestIssuePage() {
+function TestIssueContent() {
   const searchParams = useSearchParams();
   const [newsletterId, setNewsletterId] = useState('');
   const [title, setTitle] = useState('');
@@ -240,5 +240,13 @@ export default function TestIssuePage() {
         </div>
       )}
     </div>
+  );
+}
+
+export default function TestIssuePage() {
+  return (
+    <Suspense fallback={<div style={{ padding: '50px', textAlign: 'center' }}>Loading...</div>}>
+      <TestIssueContent />
+    </Suspense>
   );
 }
