@@ -49,12 +49,15 @@ export async function POST(request: NextRequest) {
     });
 
     // Step 1: Get or create keypair for user
+    console.log('🔐 Getting keypair for user:', userId);
     const userKeypair = await keypairManager.getOrCreateKeypair(userId);
     
     // Get address from the keypair we just got/created
     const publicKeyBytes = fromBase64(userKeypair.publicKey);
     const publicKey = new Ed25519PublicKey(publicKeyBytes);
     const userAddress = publicKey.toSuiAddress();
+    
+    console.log('👤 User address for newsletter creation:', userAddress);
 
     // Step 2: Build newsletter creation transaction
     const tx = new Transaction();

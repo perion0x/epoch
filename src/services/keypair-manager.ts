@@ -8,6 +8,7 @@ import { Ed25519Keypair } from '@mysten/sui/keypairs/ed25519';
 import { Ed25519PublicKey } from '@mysten/sui/keypairs/ed25519';
 import { toBase64, fromBase64 } from '@mysten/sui/utils';
 import { createCipheriv, createDecipheriv, randomBytes, scryptSync } from 'crypto';
+import { kv } from '@vercel/kv';
 
 /**
  * User keypair stored in database
@@ -55,9 +56,6 @@ export class KeypairManager {
   private algorithm = 'aes-256-gcm' as const;
   private ivLength = 16;
   private authTagLength = 16;
-  
-  // In-memory storage for testing (replace with database in production)
-  private static keypairCache: Map<string, UserKeypair> = new Map();
 
   constructor(platformMasterKey: string) {
     // Derive 32-byte key from master key
@@ -290,20 +288,18 @@ export class KeypairManager {
    * @private
    */
   private async storeKeypair(keypair: UserKeypair): Promise<void> {
-    // For testing: use in-memory storage
-    // TODO: Replace with database storage in production
-    KeypairManager.keypairCache.set(keypair.userId, keypair);
+    const key = `keypair:${keypair.userId}`;
+    await kv.set(key, keypair, { ex: 60 * 60 * 24 * 30 }); // 30 days expiry
     console.log('💾 Storing keypair for user:', keypair.userId);
   }
 
   /**
-   * Fetch keypair from database
+   * Fetch keypair from Vercel KV
    * @private
    */
   private async fetchKeypair(userId: string): Promise<UserKeypair | null> {
-    // For testing: use in-memory storage
-    // TODO: Replace with database query in production
-    const keypair = KeypairManager.keypairCache.get(userId) || null;
+    const key = `keypair:${userId}`;
+    const keypair = await kv.get<UserKeypair>(key);
     console.log('🔍 Fetching keypair for user:', userId, keypair ? '✅ Found' : '❌ Not found');
     return keypair;
   }
@@ -313,24 +309,22 @@ export class KeypairManager {
    * @private
    */
   private async updateLastUsed(userId: string): Promise<void> {
-    // For testing: update in-memory storage
-    // TODO: Replace with database update in production
-    const keypair = KeypairManager.keypairCache.get(userId);
+    const key = `keypair:${userId}`;
+    const keypair = await kv.get<UserKeypair>(key);
     if (keypair) {
       keypair.lastUsed = Date.now();
-      KeypairManager.keypairCache.set(userId, keypair);
+      await kv.set(key, keypair, { ex: 60 * 60 * 24 * 30 }); // 30 days expiry
     }
     console.log('⏰ Updating last used for user:', userId);
   }
 
   /**
-   * Remove keypair from database
+   * Remove keypair from Vercel KV
    * @private
    */
   private async removeKeypair(userId: string): Promise<void> {
-    // For testing: remove from in-memory storage
-    // TODO: Replace with database deletion in production
-    KeypairManager.keypairCache.delete(userId);
+    const key = `keypair:${userId}`;
+    await kv.del(key);
     console.log('🗑️ Removing keypair for user:', userId);
   }
 }
