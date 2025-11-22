@@ -1,0 +1,56 @@
+# Walrus Sites Configuration
+# This file configures your Walrus Sites deployment
+
+[site]
+# Site name (optional, for your reference)
+name = "Decentralized Newsletter Platform"
+
+# Description
+description = "A censorship-resistant newsletter platform on Sui and Walrus"
+
+[network]
+# Network to deploy to (testnet or mainnet)
+network = "testnet"
+
+# Walrus aggregator URL
+aggregator = "https://aggregator.walrus-testnet.walrus.space"
+
+[build]
+# Build output directory
+output_dir = "./out"
+
+# Files to exclude from deployment (optional)
+exclude = [
+    "*.map",
+    ".DS_Store",
+    "*.log"
+]
+
+[storage]
+# Storage epochs (how long to store, default: 1 epoch = ~30 days)
+epochs = 12  # ~1 year
+
+# Redundancy factor (how many copies, default: 4)
+redundancy = 4
+
+[optimization]
+# Enable compression for text files
+compress = true
+
+# File types to compress
+compress_types = [
+    "text/html",
+    "text/css",
+    "application/javascript",
+    "application/json"
+]
+
+[routing]
+# Default file for directory requests
+index = "index.html"
+
+# 404 page
+not_found = "404.html"
+
+# Enable SPA routing (all routes go to index.html)
+spa_mode = true

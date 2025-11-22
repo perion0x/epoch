@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#0088cc">
+    <meta name="telegram-theme-color" content="#0088cc">
+    <title>Tap Counter</title>
+    
+    <!-- Telegram Web App SDK -->
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- High Score Display -->
+        <div class="high-score-section">
+            <div class="score-label">High Score</div>
+            <div class="score-value" id="highScore">0</div>
+        </div>
+
+        <!-- Current Score Display -->
+        <div class="current-score-section">
+            <div class="score-label">Current Score</div>
+            <div class="score-value" id="currentScore">0</div>
+        </div>
+
+        <!-- Tap Button -->
+        <div class="tap-button-container">
+            <button class="tap-button" id="tapButton">
+                TAP ME!
+            </button>
+        </div>
+
+        <!-- Animation Container -->
+        <div class="animation-container" id="animationContainer"></div>
+
+        <!-- Control Buttons -->
+        <div class="controls-section">
+            <button class="control-button reset-button" id="resetButton">
+                Reset
+            </button>
+            <button class="control-button share-button" id="shareButton">
+                Share 📤
+            </button>
+        </div>
+    </div>
+
+    <!-- JavaScript Modules -->
+    <script src="storage.js"></script>
+    <script src="telegram.js"></script>
+    <script src="animations.js"></script>
+    <script src="ui.js"></script>
+    <script src="game.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

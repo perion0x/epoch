@@ -1,0 +1,17 @@
+{
+  "network": "testnet",
+  "deployedAt": "2025-11-22T02:25:11Z",
+  "deployer": "0xdd82cd89d3101f5ab1c78772b356064b7573883cc587daf83ae4064dd7286746",
+  "packages": {
+    "newsletter": {
+      "packageId": "0xdd82cd89d3101f5ab1c78772b356064b7573883cc587daf83ae4064dd7286746",
+      "modules": {
+        "newsletter": "newsletter::newsletter",
+        "issue": "newsletter::issue",
+        "nft": "newsletter::nft",
+        "subscription": "newsletter::subscription",
+        "access_policy": "newsletter::access_policy"
+      }
+    }
+  }
+}

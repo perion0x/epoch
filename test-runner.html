@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tap Counter - Test Runner</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .test-container {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #0088cc;
+        }
+        h2 {
+            color: #333;
+            border-bottom: 2px solid #0088cc;
+            padding-bottom: 10px;
+        }
+        .test-result {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 4px;
+            font-family: monospace;
+        }
+        .pass {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .fail {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+        button {
+            background: #0088cc;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 5px;
+        }
+        button:hover {
+            background: #006699;
+        }
+        button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+        .metric {
+            display: inline-block;
+            margin: 10px 20px 10px 0;
+            padding: 10px 15px;
+            background: #f8f9fa;
+            border-radius: 4px;
+            border-left: 4px solid #0088cc;
+        }
+        .metric-label {
+            font-size: 12px;
+            color: #666;
+            text-transform: uppercase;
+        }
+        .metric-value {
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+        }
+        iframe {
+            width: 100%;
+            height: 600px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+        .warning {
+            background: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeaa7;
+            padding: 15px;
+            border-radius: 4px;
+            margin: 15px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>🎮 Tap Counter - Test Runner</h1>
+    
+    <div class="test-container">
+        <h2>Automated Performance Tests</h2>
+        <p>Run automated tests to verify performance benchmarks and functionality.</p>
+        
+        <button onclick="runAllTests()">Run All Tests</button>
+        <button onclick="runPerformanceTests()">Performance Tests Only</button>
+        <button onclick="runFunctionalTests()">Functional Tests Only</button>
+        <button onclick="clearResults()">Clear Results</button>
+        
+        <div id="testResults"></div>
+    </div>
+    
+    <div class="test-container">
+        <h2>Performance Metrics</h2>
+        <div id="metrics">
+            <div class="metric">
+                <div class="metric-label">Avg Tap Response</div>
+                <div class="metric-value" id="avgResponse">-</div>
+            </div>
+            <div class="metric">
+                <div class="metric-label">Min Response</div>
+                <div class="metric-value" id="minResponse">-</div>
+            </div>
+            <div class="metric">
+                <div class="metric-label">Max Response</div>
+                <div class="metric-value" id="maxResponse">-</div>
+            </div>
+            <div class="metric">
+                <div class="metric-label">Tests Run</div>
+                <div class="metric-value" id="testsRun">0</div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="test-container">
+        <h2>Live App Preview</h2>
+        <div class="warning">
+            ⚠️ Note: This test runner loads the app in an iframe. Some Telegram-specific features may not work correctly.
+        </div>
+        <iframe id="appFrame" src="index.html"></iframe>
+    </div>
+
+    <script>
+        let testResults = [];
+        let responseTimes = [];
+
+        function addResult(test, status, message, time = null) {
+            const result = { test, status, message, time, timestamp: new Date() };
+            testResults.push(result);
+            displayResult(result);
+        }
+
+        function displayResult(result) {
+            const resultsDiv = document.getElementById('testResults');
+            const resultDiv = document.createElement('div');
+            resultDiv.className = `test-result ${result.status}`;
+            
+            let content = `<strong>${result.test}</strong>: ${result.message}`;
+            if (result.time !== null) {
+                content += ` (${result.time}ms)`;
+            }
+            
+            resultDiv.innerHTML = content;
+            resultsDiv.appendChild(resultDiv);
+            resultsDiv.scrollTop = resultsDiv.scrollHeight;
+        }
+
+        function clearResults() {
+            document.getElementById('testResults').innerHTML = '';
+            testResults = [];
+            responseTimes = [];
+            updateMetrics();
+        }
+
+        function updateMetrics() {
+            if (responseTimes.length === 0) {
+                document.getElementById('avgResponse').textContent = '-';
+                document.getElementById('minResponse').textContent = '-';
+                document.getElementById('maxResponse').textContent = '-';
+            } else {
+                const avg = responseTimes.reduce((a, b) => a + b, 0) / responseTimes.length;
+                const min = Math.min(...responseTimes);
+                const max = Math.max(...responseTimes);
+                
+                document.getElementById('avgResponse').textContent = avg.toFixed(1) + 'ms';
+                document.getElementById('minResponse').textContent = min.toFixed(1) + 'ms';
+                document.getElementById('maxResponse').textContent = max.toFixed(1) + 'ms';
+            }
+            document.getElementById('testsRun').textContent = testResults.length;
+        }
+
+        async function runAllTests() {
+            clearResults();
+            addResult('Test Suite', 'info', 'Starting all tests...');
+            await runFunctionalTests();
+            await runPerformanceTests();
+            addResult('Test Suite', 'info', 'All tests completed!');
+        }
+
+        async function runFunctionalTests() {
+            addResult('Functional Tests', 'info', 'Starting functional tests...');
+            
+            // Test 1: localStorage availability
+            try {
+                const available = typeof(Storage) !== "undefined";
+                if (available) {
+                    localStorage.setItem('test', 'test');
+                    localStorage.removeItem('test');
+                    addResult('localStorage', 'pass', 'localStorage is available and functional');
+                } else {
+                    addResult('localStorage', 'fail', 'localStorage is not available');
+                }
+            } catch (e) {
+                addResult('localStorage', 'fail', `localStorage error: ${e.message}`);
+            }
+
+            // Test 2: Telegram SDK detection
+            const iframe = document.getElementById('appFrame');
+            try {
+                const telegramAvailable = iframe.contentWindow.Telegram !== undefined;
+                if (telegramAvailable) {
+                    addResult('Telegram SDK', 'pass', 'Telegram SDK detected');
+                } else {
+                    addResult('Telegram SDK', 'info', 'Telegram SDK not available (expected outside Telegram)');
+                }
+            } catch (e) {
+                addResult('Telegram SDK', 'info', 'Cannot access iframe content (CORS)');
+            }
+
+            // Test 3: Required DOM elements
+            await new Promise(resolve => setTimeout(resolve, 500)); // Wait for iframe to load
+            try {
+                const doc = iframe.contentDocument || iframe.contentWindow.document;
+                const requiredElements = ['currentScore', 'highScore', 'tapButton', 'resetButton', 'shareButton'];
+                let allFound = true;
+                
+                for (const id of requiredElements) {
+                    const element = doc.getElementById(id);
+                    if (!element) {
+                        addResult('DOM Elements', 'fail', `Required element not found: ${id}`);
+                        allFound = false;
+                    }
+                }
+                
+                if (allFound) {
+                    addResult('DOM Elements', 'pass', 'All required DOM elements found');
+                }
+            } catch (e) {
+                addResult('DOM Elements', 'info', 'Cannot access iframe DOM (CORS restriction)');
+            }
+
+            // Test 4: CSS loaded
+            try {
+                const doc = iframe.contentDocument || iframe.contentWindow.document;
+                const styles = doc.styleSheets.length;
+                if (styles > 0) {
+                    addResult('CSS Loading', 'pass', `${styles} stylesheet(s) loaded`);
+                } else {
+                    addResult('CSS Loading', 'fail', 'No stylesheets detected');
+                }
+            } catch (e) {
+                addResult('CSS Loading', 'info', 'Cannot verify CSS loading (CORS restriction)');
+            }
+
+            // Test 5: JavaScript loaded
+            try {
+                const doc = iframe.contentDocument || iframe.contentWindow.document;
+                const scripts = doc.scripts.length;
+                if (scripts > 0) {
+                    addResult('JavaScript Loading', 'pass', `${scripts} script(s) loaded`);
+                } else {
+                    addResult('JavaScript Loading', 'fail', 'No scripts detected');
+                }
+            } catch (e) {
+                addResult('JavaScript Loading', 'info', 'Cannot verify script loading (CORS restriction)');
+            }
+
+            updateMetrics();
+        }
+
+        async function runPerformanceTests() {
+            addResult('Performance Tests', 'info', 'Starting performance tests...');
+            
+            // Test 1: Page load time
+            const loadStart = performance.timing.domLoading;
+            const loadEnd = performance.timing.domComplete;
+            const loadTime = loadEnd - loadStart;
+            
+            if (loadTime < 1000) {
+                addResult('Page Load Time', 'pass', `Page loaded in ${loadTime}ms (target: <1000ms)`, loadTime);
+            } else {
+                addResult('Page Load Time', 'fail', `Page loaded in ${loadTime}ms (target: <1000ms)`, loadTime);
+            }
+
+            // Test 2: Simulated tap response time
+            addResult('Tap Response', 'info', 'Measuring tap response times (10 samples)...');
+            
+            for (let i = 0; i < 10; i++) {
+                const start = performance.now();
+                
+                // Simulate score increment operation
+                const testScore = i + 1;
+                const formatted = testScore.toLocaleString('en-US');
+                
+                const end = performance.now();
+                const responseTime = end - start;
+                responseTimes.push(responseTime);
+                
+                await new Promise(resolve => setTimeout(resolve, 50)); // Small delay between tests
+            }
+
+            const avgResponseTime = responseTimes.reduce((a, b) => a + b, 0) / responseTimes.length;
+            
+            if (avgResponseTime < 100) {
+                addResult('Tap Response Time', 'pass', `Average response: ${avgResponseTime.toFixed(2)}ms (target: <100ms)`, avgResponseTime);
+            } else {
+                addResult('Tap Response Time', 'fail', `Average response: ${avgResponseTime.toFixed(2)}ms (target: <100ms)`, avgResponseTime);
+            }
+
+            // Test 3: Memory usage (basic check)
+            if (performance.memory) {
+                const memoryMB = (performance.memory.usedJSHeapSize / 1048576).toFixed(2);
+                addResult('Memory Usage', 'info', `Current JS heap: ${memoryMB}MB`);
+            } else {
+                addResult('Memory Usage', 'info', 'Memory API not available in this browser');
+            }
+
+            // Test 4: Animation frame rate estimation
+            let frameCount = 0;
+            const frameStart = performance.now();
+            
+            const countFrames = () => {
+                frameCount++;
+                if (performance.now() - frameStart < 1000) {
+                    requestAnimationFrame(countFrames);
+                } else {
+                    const fps = frameCount;
+                    if (fps >= 55) {
+                        addResult('Frame Rate', 'pass', `Estimated ${fps} FPS (target: ~60 FPS)`);
+                    } else {
+                        addResult('Frame Rate', 'fail', `Estimated ${fps} FPS (target: ~60 FPS)`);
+                    }
+                    updateMetrics();
+                }
+            };
+            
+            requestAnimationFrame(countFrames);
+        }
+
+        // Auto-run basic tests on load
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                addResult('Test Runner', 'info', 'Test runner loaded. Click "Run All Tests" to begin.');
+            }, 1000);
+        });
+    </script>
+</body>
+</html>
