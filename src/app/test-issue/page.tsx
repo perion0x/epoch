@@ -36,6 +36,8 @@ function TestIssueContent() {
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<any>(null);
   const [error, setError] = useState<string | null>(null);
+  const [fetchedContent, setFetchedContent] = useState<string | null>(null);
+  const [fetchingContent, setFetchingContent] = useState(false);
 
   useEffect(() => {
     const id = searchParams.get('newsletterId');
@@ -49,6 +51,7 @@ function TestIssueContent() {
     setLoading(true);
     setError(null);
     setResult(null);
+    setFetchedContent(null);
 
     try {
       const response = await publishGaslessIssue({
@@ -66,6 +69,20 @@ function TestIssueContent() {
       setError(err.message || 'Failed to publish issue');
     } finally {
       setLoading(false);
+    }
+  };
+
+  const fetchContentFromWalrus = async (blobId: string) => {
+    setFetchingContent(true);
+    try {
+      const response = await fetch(`https://aggregator.walrus-testnet.walrus.space/v1/${blobId}`);
+      const content = await response.text();
+      setFetchedContent(content);
+    } catch (err) {
+      console.error('Failed to fetch content from Walrus:', err);
+      setFetchedContent('Failed to fetch content');
+    } finally {
+      setFetchingContent(false);
     }
   };
 
@@ -225,28 +242,106 @@ function TestIssueContent() {
                 {result.blobId}
               </code>
             </p>
-            <a
-              href={result.explorerUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{
-                display: 'inline-block',
-                marginTop: '10px',
-                padding: '8px 16px',
-                backgroundColor: '#007bff',
-                color: 'white',
-                textDecoration: 'none',
-                borderRadius: '4px',
-                fontSize: '14px',
-                fontWeight: 'bold',
-              }}
-            >
-              View on SuiVision
-            </a>
+            <div style={{ display: 'flex', gap: '10px', marginTop: '15px', flexWrap: 'wrap' }}>
+              <a
+                href={result.explorerUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{
+                  display: 'inline-block',
+                  padding: '10px 18px',
+                  backgroundColor: '#3b82f6',
+                  color: 'white',
+                  textDecoration: 'none',
+                  borderRadius: '6px',
+                  fontSize: '14px',
+                  fontWeight: '600',
+                }}
+              >
+                View on SuiVision
+              </a>
+              <a
+                href={`https://aggregator.walrus-testnet.walrus.space/v1/${result.blobId}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{
+                  display: 'inline-block',
+                  padding: '10px 18px',
+                  backgroundColor: '#8b5cf6',
+                  color: 'white',
+                  textDecoration: 'none',
+                  borderRadius: '6px',
+                  fontSize: '14px',
+                  fontWeight: '600',
+                }}
+              >
+                View Content on Walrus
+              </a>
+              <a
+                href={`https://walruscan.com/testnet/blob/${result.blobId}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{
+                  display: 'inline-block',
+                  padding: '10px 18px',
+                  backgroundColor: '#06b6d4',
+                  color: 'white',
+                  textDecoration: 'none',
+                  borderRadius: '6px',
+                  fontSize: '14px',
+                  fontWeight: '600',
+                }}
+              >
+                View on Walruscan
+              </a>
+            </div>
           </div>
           <p style={{ fontSize: '14px', marginTop: '15px', color: '#86efac' }}>
             Content stored on Walrus, metadata on Sui - all gasless.
           </p>
+
+          {!fetchedContent && (
+            <button
+              onClick={() => fetchContentFromWalrus(result.blobId)}
+              disabled={fetchingContent}
+              style={{
+                marginTop: '15px',
+                padding: '10px 18px',
+                background: 'linear-gradient(to right, #9333ea, #06b6d4)',
+                color: 'white',
+                border: 'none',
+                borderRadius: '6px',
+                fontSize: '14px',
+                fontWeight: '600',
+                cursor: fetchingContent ? 'not-allowed' : 'pointer',
+                opacity: fetchingContent ? 0.7 : 1,
+              }}
+            >
+              {fetchingContent ? 'Loading...' : 'Preview Published Content'}
+            </button>
+          )}
+
+          {fetchedContent && (
+            <div
+              style={{
+                marginTop: '20px',
+                padding: '20px',
+                backgroundColor: '#1e293b',
+                border: '1px solid #334155',
+                borderRadius: '6px',
+                maxHeight: '400px',
+                overflow: 'auto',
+              }}
+            >
+              <h4 style={{ marginTop: 0, color: '#e2e8f0', fontSize: '16px', fontWeight: '600', marginBottom: '12px' }}>
+                Published Content Preview
+              </h4>
+              <div
+                style={{ color: '#cbd5e1', fontSize: '14px', lineHeight: '1.6' }}
+                dangerouslySetInnerHTML={{ __html: fetchedContent }}
+              />
+            </div>
+          )}
         </div>
       )}
       </div>
