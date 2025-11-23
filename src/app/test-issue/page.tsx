@@ -3,6 +3,29 @@
 import { useState, useEffect, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { publishGaslessIssue } from '@/services/gasless-issue';
+import dynamic from 'next/dynamic';
+
+// Dynamically import Koenig editor to avoid SSR issues
+const KoenigEditor = dynamic(() => import('@/components/KoenigEditor'), {
+  ssr: false,
+  loading: () => (
+    <div
+      style={{
+        minHeight: '300px',
+        padding: '20px',
+        backgroundColor: '#1e293b',
+        border: '2px solid #334155',
+        borderRadius: '6px',
+        color: '#64748b',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+      }}
+    >
+      Loading editor...
+    </div>
+  ),
+});
 
 function TestIssueContent() {
   const searchParams = useSearchParams();
@@ -66,9 +89,11 @@ function TestIssueContent() {
         ← Back to Home
       </a>
       
-      <h1 style={{ color: '#ffffff' }}>📝 Test Gasless Issue Publishing</h1>
-      <p style={{ color: '#94a3b8', marginBottom: '30px' }}>
-        Publish newsletter issues to Walrus + Sui without a wallet!
+      <h1 style={{ color: '#ffffff', fontSize: '36px', marginBottom: '12px', fontWeight: '700' }}>
+        Publish Your Issue
+      </h1>
+      <p style={{ color: '#94a3b8', marginBottom: '40px', fontSize: '18px', lineHeight: '1.6' }}>
+        Create and publish newsletter issues with a professional editor. Content stored on Walrus, metadata on Sui.
       </p>
 
       <form onSubmit={handleSubmit} style={{ marginBottom: '30px' }}>
@@ -118,48 +143,25 @@ function TestIssueContent() {
           />
         </div>
 
-        <div style={{ marginBottom: '20px' }}>
-          <label style={{ display: 'block', marginBottom: '8px', fontWeight: 'bold', color: '#cbd5e1' }}>
+        <div style={{ marginBottom: '24px' }}>
+          <label style={{ display: 'block', marginBottom: '12px', fontWeight: '600', color: '#e2e8f0', fontSize: '14px' }}>
             Public Content (Free)
           </label>
-          <textarea
-            value={publicContent}
-            onChange={(e) => setPublicContent(e.target.value)}
-            placeholder="Content visible to everyone..."
-            required
-            rows={6}
-            style={{
-              width: '100%',
-              padding: '10px',
-              fontSize: '14px',
-              border: '1px solid #475569',
-              borderRadius: '4px',
-              fontFamily: 'inherit',
-              backgroundColor: '#1e293b',
-              color: '#ffffff',
-            }}
+          <KoenigEditor
+            initialContent={publicContent}
+            onChange={setPublicContent}
+            placeholder="Write your newsletter content... (visible to everyone)"
           />
         </div>
 
-        <div style={{ marginBottom: '20px' }}>
-          <label style={{ display: 'block', marginBottom: '8px', fontWeight: 'bold', color: '#cbd5e1' }}>
-            Premium Content (Optional - NFT holders only)
+        <div style={{ marginBottom: '24px' }}>
+          <label style={{ display: 'block', marginBottom: '12px', fontWeight: '600', color: '#e2e8f0', fontSize: '14px' }}>
+            Premium Content <span style={{ color: '#64748b', fontWeight: '400' }}>(Optional - NFT holders only)</span>
           </label>
-          <textarea
-            value={premiumContent}
-            onChange={(e) => setPremiumContent(e.target.value)}
+          <KoenigEditor
+            initialContent={premiumContent}
+            onChange={setPremiumContent}
             placeholder="Premium content for NFT holders..."
-            rows={4}
-            style={{
-              width: '100%',
-              padding: '10px',
-              fontSize: '14px',
-              border: '1px solid #475569',
-              borderRadius: '4px',
-              fontFamily: 'inherit',
-              backgroundColor: '#1e293b',
-              color: '#ffffff',
-            }}
           />
         </div>
 
@@ -178,7 +180,7 @@ function TestIssueContent() {
             cursor: loading ? 'not-allowed' : 'pointer',
           }}
         >
-          {loading ? 'Publishing...' : '🚀 Publish Issue (Gasless)'}
+          {loading ? 'Publishing...' : 'Publish Issue Now'}
         </button>
       </form>
 
@@ -207,7 +209,7 @@ function TestIssueContent() {
             color: '#86efac',
           }}
         >
-          <h3 style={{ marginTop: 0, color: '#86efac' }}>🎉 Issue published on Sui + Walrus!</h3>
+          <h3 style={{ marginTop: 0, color: '#86efac', fontSize: '20px', fontWeight: '600' }}>Issue Published Successfully</h3>
           <div style={{ fontSize: '14px', marginBottom: '15px', color: '#86efac' }}>
             <p>
               <strong>Transaction Hash:</strong>
@@ -239,11 +241,11 @@ function TestIssueContent() {
                 fontWeight: 'bold',
               }}
             >
-              🔍 View on SuiVision
+              View on SuiVision
             </a>
           </div>
           <p style={{ fontSize: '14px', marginTop: '15px', color: '#86efac' }}>
-            💡 Content stored on Walrus, metadata on Sui - all gasless!
+            Content stored on Walrus, metadata on Sui - all gasless.
           </p>
         </div>
       )}

@@ -3227,3 +3227,71 @@ main {
     display: none;
   }
 }
+
+/* Koenig Editor Styles */
+.koenig-editor-wrapper {
+  min-height: 300px;
+  padding: 20px;
+  background-color: #1e293b;
+  border: 2px solid #334155;
+  border-radius: 6px;
+  color: #ffffff;
+  font-size: 16px;
+  line-height: 1.6;
+  transition: border-color 0.2s;
+}
+
+.koenig-editor-wrapper:focus-within {
+  border-color: #3b82f6;
+  outline: none;
+}
+
+.koenig-editor-wrapper .kg-prose {
+  color: #ffffff;
+}
+
+.koenig-editor-wrapper .kg-prose p {
+  margin-bottom: 1em;
+  color: #e2e8f0;
+}
+
+.koenig-editor-wrapper .kg-prose h1,
+.koenig-editor-wrapper .kg-prose h2,
+.koenig-editor-wrapper .kg-prose h3 {
+  color: #ffffff;
+  font-weight: 600;
+  margin-top: 1.5em;
+  margin-bottom: 0.5em;
+}
+
+.koenig-editor-wrapper .kg-prose a {
+  color: #3b82f6;
+  text-decoration: underline;
+}
+
+.koenig-editor-wrapper .kg-prose code {
+  background-color: #0f172a;
+  padding: 2px 6px;
+  border-radius: 3px;
+  font-family: 'Courier New', monospace;
+  color: #86efac;
+}
+
+.koenig-editor-wrapper .kg-prose blockquote {
+  border-left: 4px solid #3b82f6;
+  padding-left: 1em;
+  margin-left: 0;
+  color: #94a3b8;
+  font-style: italic;
+}
+
+.koenig-editor-wrapper [data-lexical-editor] {
+  outline: none;
+}
+
+.koenig-editor-wrapper [contenteditable="true"]:empty:before {
+  content: attr(data-placeholder);
+  color: #64748b;
+  pointer-events: none;
+  position: absolute;
+}
