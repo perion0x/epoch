@@ -95,20 +95,11 @@ export default function TestGaslessPage() {
           padding: 0 !important;
         }
         .gasless-page-container {
-          transform: scale(0.9) !important;
-          transform-origin: top center !important;
-          width: 111.11% !important;
-          margin-left: -5.56% !important;
           background: linear-gradient(135deg, #020617 0%, #0f172a 100%) !important;
-          animation: fadeInScale 0.2s ease-out forwards !important;
+          font-size: 90% !important;
         }
-        @keyframes fadeInScale {
-          0% {
-            opacity: 0;
-          }
-          100% {
-            opacity: 1;
-          }
+        .gasless-page-container * {
+          font-size: inherit !important;
         }
       `}} />
       <div className="gasless-page-container" style={{ minHeight: '100vh', backgroundColor: '#020617', fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif' }}>

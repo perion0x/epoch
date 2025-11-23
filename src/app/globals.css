@@ -3448,17 +3448,13 @@ main {
 /* Keep side-by-side layout at all screen sizes */
 /* Removed stacking behavior - columns stay left and right */
 
-/* Gasless Page Zoom - Applied immediately to prevent flash */
-/* Use transform with !important to ensure it's never overridden */
+/* Gasless Page Zoom - Use font-size scaling instead of transform */
+/* This prevents visible resizing flash */
 .gasless-page-container {
-  transform: scale(0.9) !important;
-  transform-origin: top center !important;
-  width: 111.11% !important;
-  margin-left: -5.56% !important;
-  min-height: 100vh !important;
+  font-size: 90%;
+  min-height: 100vh;
 }
 
-/* Ensure the scale is applied before any content renders */
-html:has(.gasless-page-container) {
-  overflow-x: hidden;
+.gasless-page-container * {
+  /* All child elements inherit the scaled font size */
 }
