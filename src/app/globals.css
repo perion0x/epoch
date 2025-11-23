@@ -2777,6 +2777,39 @@ main {
   color: white;
 }
 
+/* Tech Stack Badge */
+.tech-stack-badge {
+  max-width: 1200px;
+  margin: 2rem auto 0;
+  padding-top: 1.5rem;
+  border-top: 1px solid #374151;
+}
+
+.tech-stack-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  font-size: 0.75rem;
+  color: #6b7280;
+}
+
+.tech-logo {
+  height: 1.25rem;
+  width: auto;
+  filter: grayscale(100%);
+  opacity: 0.6;
+}
+
+.tech-text {
+  color: #6b7280;
+  font-weight: 500;
+}
+
+.tech-separator {
+  color: #4b5563;
+}
+
 /* Responsive */
 @media (max-width: 768px) {
   .hero-title {
@@ -2797,5 +2830,10 @@ main {
   
   .hero-actions {
     flex-direction: column;
+  }
+  
+  .tech-stack-content {
+    flex-wrap: wrap;
+    font-size: 0.7rem;
   }
 }
