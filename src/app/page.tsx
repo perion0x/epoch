@@ -71,14 +71,14 @@ export default function Home() {
 
                 {/* Walrus Logo */}
                 <img 
-                  src="/images/walrus.png" 
+                  src="/images/walrus.svg" 
                   alt="Walrus" 
                   className="tech-logo"
                 />
 
                 {/* Seal Logo */}
                 <img 
-                  src="/images/seal.png" 
+                  src="/images/seal.svg" 
                   alt="Seal" 
                   className="tech-logo"
                 />
