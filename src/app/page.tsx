@@ -43,6 +43,48 @@ export default function Home() {
               Start For Free
             </Link>
           </div>
+
+          {/* Dashboard Preview */}
+          <div className="dashboard-preview">
+            <div className="browser-mockup">
+              <div className="browser-header">
+                <div className="browser-dots">
+                  <span className="dot red"></span>
+                  <span className="dot yellow"></span>
+                  <span className="dot green"></span>
+                </div>
+                <div className="browser-url">epoch.app/dashboard</div>
+              </div>
+              <div className="browser-content">
+                <div className="dashboard-mock">
+                  <div className="dashboard-sidebar">
+                    <div className="sidebar-item active">📝 My Newsletters</div>
+                    <div className="sidebar-item">📊 Analytics</div>
+                    <div className="sidebar-item">💎 NFT Access</div>
+                    <div className="sidebar-item">⚙️ Settings</div>
+                  </div>
+                  <div className="dashboard-main">
+                    <div className="dashboard-header">
+                      <h3>Your Newsletters</h3>
+                      <button className="create-btn">+ New Newsletter</button>
+                    </div>
+                    <div className="newsletter-cards">
+                      <div className="mock-card">
+                        <div className="card-badge">🟢 Published</div>
+                        <h4>Crypto Weekly</h4>
+                        <p>1,234 subscribers • 12 issues</p>
+                      </div>
+                      <div className="mock-card">
+                        <div className="card-badge">✏️ Draft</div>
+                        <h4>DeFi Insights</h4>
+                        <p>0 subscribers • 0 issues</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
