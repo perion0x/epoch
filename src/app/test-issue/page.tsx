@@ -6,7 +6,7 @@ import { publishGaslessIssue } from '@/services/gasless-issue';
 import dynamic from 'next/dynamic';
 
 // Dynamically import Koenig editor to avoid SSR issues
-const KoenigEditor = dynamic(() => import('@/components/KoenigEditor'), {
+const KoenigEditor = dynamic(() => import('@/components/KoenigEditor').then((mod) => ({ default: mod.KoenigEditor })), {
   ssr: false,
   loading: () => (
     <div
@@ -148,8 +148,8 @@ function TestIssueContent() {
             Public Content (Free)
           </label>
           <KoenigEditor
-            initialContent={publicContent}
-            onChange={setPublicContent}
+            initialValue={publicContent}
+            onChange={(html, markdown) => setPublicContent(html)}
             placeholder="Write your newsletter content... (visible to everyone)"
           />
         </div>
@@ -159,8 +159,8 @@ function TestIssueContent() {
             Premium Content <span style={{ color: '#64748b', fontWeight: '400' }}>(Optional - NFT holders only)</span>
           </label>
           <KoenigEditor
-            initialContent={premiumContent}
-            onChange={setPremiumContent}
+            initialValue={premiumContent}
+            onChange={(html, markdown) => setPremiumContent(html)}
             placeholder="Premium content for NFT holders..."
           />
         </div>
