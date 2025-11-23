@@ -86,7 +86,7 @@ export default function TestGaslessPage() {
 
   return (
     <>
-      {/* Inline critical CSS to prevent flash */}
+      {/* Inline critical CSS for theme */}
       <style dangerouslySetInnerHTML={{__html: `
         body, html {
           background: linear-gradient(135deg, #020617 0%, #0f172a 100%) !important;
@@ -96,10 +96,6 @@ export default function TestGaslessPage() {
         }
         .gasless-page-container {
           background: linear-gradient(135deg, #020617 0%, #0f172a 100%) !important;
-          font-size: 90% !important;
-        }
-        .gasless-page-container * {
-          font-size: inherit !important;
         }
       `}} />
       <div className="gasless-page-container" style={{ minHeight: '100vh', backgroundColor: '#020617', fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif' }}>

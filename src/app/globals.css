@@ -3448,13 +3448,7 @@ main {
 /* Keep side-by-side layout at all screen sizes */
 /* Removed stacking behavior - columns stay left and right */
 
-/* Gasless Page Zoom - Use font-size scaling instead of transform */
-/* This prevents visible resizing flash */
+/* Gasless Page Container - No scaling needed */
 .gasless-page-container {
-  font-size: 90%;
   min-height: 100vh;
-}
-
-.gasless-page-container * {
-  /* All child elements inherit the scaled font size */
 }
