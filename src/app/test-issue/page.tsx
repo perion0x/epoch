@@ -306,9 +306,20 @@ function TestIssueContent() {
               </a>
             </div>
           </div>
-          <p style={{ fontSize: '14px', marginTop: '15px', color: '#86efac' }}>
-            Content stored on Walrus, metadata on Sui - all gasless.
-          </p>
+          <div style={{ 
+            marginTop: '15px', 
+            padding: '12px 16px', 
+            backgroundColor: 'rgba(139, 92, 246, 0.1)', 
+            border: '1px solid rgba(139, 92, 246, 0.3)',
+            borderRadius: '6px'
+          }}>
+            <p style={{ fontSize: '14px', color: '#c4b5fd', margin: 0 }}>
+              <strong>✓ Success!</strong> Content stored on Walrus, metadata on Sui - all gasless.
+            </p>
+            <p style={{ fontSize: '13px', color: '#a78bfa', margin: '8px 0 0 0' }}>
+              💡 Tip: Walrus propagation takes 2-5 minutes. Click "View Content on Walrus" to check if it's ready.
+            </p>
+          </div>
 
           {fetchedContent && (
             <div
@@ -322,9 +333,29 @@ function TestIssueContent() {
                 overflow: 'auto',
               }}
             >
-              <h4 style={{ marginTop: 0, color: '#e2e8f0', fontSize: '16px', fontWeight: '600', marginBottom: '12px' }}>
-                Published Content Preview
-              </h4>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
+                <h4 style={{ margin: 0, color: '#e2e8f0', fontSize: '16px', fontWeight: '600' }}>
+                  Published Content Preview
+                </h4>
+                {fetchedContent.includes('Content Not Found') && (
+                  <button
+                    onClick={() => fetchContentFromWalrus(result.blobId)}
+                    disabled={fetchingContent}
+                    style={{
+                      padding: '6px 12px',
+                      fontSize: '13px',
+                      fontWeight: '600',
+                      color: 'white',
+                      background: fetchingContent ? '#64748b' : '#8b5cf6',
+                      border: 'none',
+                      borderRadius: '4px',
+                      cursor: fetchingContent ? 'not-allowed' : 'pointer',
+                    }}
+                  >
+                    {fetchingContent ? 'Retrying...' : 'Retry'}
+                  </button>
+                )}
+              </div>
               <div
                 style={{ color: '#cbd5e1', fontSize: '14px', lineHeight: '1.6' }}
                 dangerouslySetInnerHTML={{ __html: fetchedContent }}
