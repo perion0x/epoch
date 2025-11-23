@@ -239,9 +239,10 @@ function TestIssueContent() {
               <strong>Walrus Blob ID:</strong>
               <br />
               <code style={{ fontSize: '12px', wordBreak: 'break-all', color: '#86efac' }}>
-                {result.blobId}
+                {result.blobId || 'Not available'}
               </code>
             </p>
+            {result.blobId && (
             <div style={{ display: 'flex', gap: '10px', marginTop: '15px', flexWrap: 'wrap' }}>
               <a
                 href={result.explorerUrl}
@@ -295,6 +296,7 @@ function TestIssueContent() {
                 View on Walruscan
               </a>
             </div>
+            )}
           </div>
           <p style={{ fontSize: '14px', marginTop: '15px', color: '#86efac' }}>
             Content stored on Walrus, metadata on Sui - all gasless.
