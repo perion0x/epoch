@@ -44,7 +44,7 @@ export default function Home() {
             </p>
 
             <div className="hero-actions">
-              <Link href="/test-gasless" className="btn-black">
+              <Link href="/test-gasless" className="btn-gradient">
                 Start For Free
               </Link>
             </div>
@@ -97,6 +97,16 @@ export default function Home() {
                     <div className="dashboard-header">
                       <h3>Dashboard</h3>
                       <button className="create-btn">+ New Post</button>
+                    </div>
+
+                    {/* New Subscriber Notification */}
+                    <div className="notification-popup">
+                      <div className="notification-icon">🎉</div>
+                      <div className="notification-content">
+                        <div className="notification-title">New Subscriber!</div>
+                        <div className="notification-text">sarah.eth just subscribed to Crypto Weekly</div>
+                      </div>
+                      <div className="notification-time">2s ago</div>
                     </div>
                     
                     {/* Stats Grid */}
