@@ -2675,47 +2675,78 @@ main {
   margin-bottom: 0;
 }
 
-.feature-blocks {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 2rem;
-}
-
-.feature-block {
-  background: rgba(0, 0, 0, 0.5);
-  padding: 2rem;
-  border-radius: 1rem;
+/* Integrated Schematic Block */
+.schematic-block {
+  background: #1c1f23;
+  border-radius: 1.5rem;
   border: 1px solid #334155;
-  transition: all 0.3s;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3);
+  overflow: hidden;
 }
 
-.feature-block:hover {
-  border-color: #475569;
-  background: rgba(0, 0, 0, 0.7);
+.schematic-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
 }
 
-.feature-block-header {
+.schematic-cell {
+  padding: 2rem;
+  border-color: #334155;
+  transition: background 0.3s;
+}
+
+.schematic-cell:hover {
+  background: rgba(139, 92, 246, 0.05);
+}
+
+.schematic-cell.border-r {
+  border-right: 1px solid #334155;
+}
+
+.schematic-cell.border-b {
+  border-bottom: 1px solid #334155;
+}
+
+.icon-container {
+  width: 3rem;
+  height: 3rem;
+  border-radius: 0.75rem;
   display: flex;
   align-items: center;
-  gap: 1rem;
+  justify-content: center;
   margin-bottom: 1rem;
 }
 
-.feature-icon {
-  color: #8b5cf6;
-  flex-shrink: 0;
+.icon-container.bg-sui {
+  background: rgba(56, 152, 236, 0.1);
+  color: #3898EC;
 }
 
-.feature-block h4 {
-  font-size: 1.125rem;
-  font-weight: 600;
+.icon-container.bg-purple {
+  background: rgba(168, 85, 247, 0.1);
+  color: #a855f7;
+}
+
+.icon-container.bg-emerald {
+  background: rgba(16, 185, 129, 0.1);
+  color: #10b981;
+}
+
+.icon-container.bg-orange {
+  background: rgba(249, 115, 22, 0.1);
+  color: #f97316;
+}
+
+.schematic-cell h4 {
+  font-size: 1.25rem;
+  font-weight: 700;
   color: #ffffff;
-  margin: 0;
+  margin: 0 0 0.5rem 0;
 }
 
-.feature-block p {
+.schematic-cell p {
   color: #94a3b8;
-  font-size: 0.9375rem;
+  font-size: 0.875rem;
   line-height: 1.6;
   margin: 0;
 }
@@ -3141,8 +3172,13 @@ main {
     grid-template-columns: 1fr;
   }
   
-  .feature-blocks {
+  .schematic-grid {
     grid-template-columns: 1fr;
+  }
+  
+  .schematic-cell.border-r {
+    border-right: none;
+    border-bottom: 1px solid #334155;
   }
   
   .footer-content {

@@ -183,7 +183,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Features Section */}
+      {/* Features Section - Integrated Schematic Design */}
       <section className="features">
         <div className="features-grid">
           <div className="feature-main">
@@ -194,48 +194,54 @@ export default function Home() {
             </p>
           </div>
 
-          <div className="feature-blocks">
-            <div className="feature-block">
-              <div className="feature-block-header">
-                <svg className="feature-icon" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <circle cx="12" cy="12" r="10"/>
-                  <polyline points="12 6 12 12 16 14"/>
-                </svg>
+          {/* Integrated Schematic Block - 2x2 Grid */}
+          <div className="schematic-block">
+            <div className="schematic-grid">
+              {/* Top-Left: Powered by Sui */}
+              <div className="schematic-cell border-b border-r">
+                <div className="icon-container bg-sui">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+                  </svg>
+                </div>
                 <h4>Powered by Sui</h4>
+                <p>Instantaneous publishing and transaction finality with Sui's parallel execution.</p>
               </div>
-              <p>Instantaneous publishing and transaction finality with Sui's parallel execution.</p>
-            </div>
 
-            <div className="feature-block">
-              <div className="feature-block-header">
-                <svg className="feature-icon" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
-                </svg>
+              {/* Top-Right: Stored on Walrus */}
+              <div className="schematic-cell border-b">
+                <div className="icon-container bg-purple">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+                  </svg>
+                </div>
                 <h4>Stored on Walrus</h4>
+                <p>Content stored as immutable decentralized blobs, independent of Epoch's servers.</p>
               </div>
-              <p>Content stored as immutable decentralized blobs, independent of Epoch's servers.</p>
-            </div>
 
-            <div className="feature-block">
-              <div className="feature-block-header">
-                <svg className="feature-icon" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
-                  <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
-                </svg>
+              {/* Bottom-Left: Secured by Seal */}
+              <div className="schematic-cell border-r">
+                <div className="icon-container bg-emerald">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                    <path d="m9 12 2 2 4-4"/>
+                  </svg>
+                </div>
                 <h4>Secured by Seal</h4>
+                <p>Proof-of-ownership and access control secured by on-chain identity protocols.</p>
               </div>
-              <p>Proof-of-ownership and access control secured by on-chain identity protocols.</p>
-            </div>
 
-            <div className="feature-block">
-              <div className="feature-block-header">
-                <svg className="feature-icon" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <line x1="12" y1="1" x2="12" y2="23"/>
-                  <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
-                </svg>
+              {/* Bottom-Right: Crypto Native */}
+              <div className="schematic-cell">
+                <div className="icon-container bg-orange">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <line x1="12" y1="1" x2="12" y2="23"/>
+                    <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+                  </svg>
+                </div>
                 <h4>Crypto Native</h4>
+                <p>Payments are settled instantly on-chain, cutting out the middlemen and platform fees.</p>
               </div>
-              <p>Payments are settled instantly on-chain, cutting out the middlemen and platform fees.</p>
             </div>
           </div>
         </div>
