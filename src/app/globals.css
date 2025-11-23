@@ -2509,7 +2509,7 @@ main {
 }
 
 .sui-badge {
-  margin: 2rem 0;
+  margin: 2rem 0 1rem 0;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -2518,15 +2518,15 @@ main {
 }
 
 .powered-by-text {
-  font-size: 0.75rem;
-  font-weight: 600;
-  color: #9ca3af;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #6b7280;
+  letter-spacing: 0;
+  text-transform: none;
 }
 
 .sui-badge svg {
-  width: 180px;
+  width: 135px;
   height: auto;
 }
 
@@ -2535,7 +2535,7 @@ main {
   gap: 1.5rem;
   justify-content: center;
   align-items: center;
-  margin-top: 3rem;
+  margin-top: 1.5rem;
 }
 
 .btn-primary, .btn-black {

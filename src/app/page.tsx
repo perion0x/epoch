@@ -53,9 +53,6 @@ export default function Home() {
             <Link href="/test-gasless" className="btn-black">
               START FREE
             </Link>
-            <Link href="#how-it-works" className="btn-link">
-              See how it works →
-            </Link>
           </div>
         </div>
       </section>
