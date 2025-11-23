@@ -2652,11 +2652,11 @@ main {
 }
 
 .feature-main h2 {
-  font-size: 0.875rem;
-  font-weight: 600;
-  color: #8b5cf6;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #64748b;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.1em;
   margin-bottom: 1rem;
 }
 
@@ -2672,58 +2672,52 @@ main {
   font-size: 1.125rem;
   color: #94a3b8;
   line-height: 1.7;
-  margin-bottom: 2rem;
+  margin-bottom: 0;
 }
 
-.link-arrow {
-  color: #8b5cf6;
-  text-decoration: none;
-  font-weight: 600;
-  transition: gap 0.2s;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.link-arrow:hover {
-  gap: 0.75rem;
-}
-
-.feature-cards {
+.feature-blocks {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 1.5rem;
+  grid-template-columns: 1fr;
+  gap: 2rem;
 }
 
-.feature-card {
-  background: #0f172a;
+.feature-block {
+  background: rgba(0, 0, 0, 0.5);
   padding: 2rem;
   border-radius: 1rem;
   border: 1px solid #334155;
   transition: all 0.3s;
 }
 
-.feature-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 20px 25px -5px rgba(139, 92, 246, 0.3);
-  border-color: #8b5cf6;
+.feature-block:hover {
+  border-color: #475569;
+  background: rgba(0, 0, 0, 0.7);
 }
 
-.card-icon {
-  font-size: 2rem;
+.feature-block-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
   margin-bottom: 1rem;
 }
 
-.feature-card h4 {
+.feature-icon {
+  color: #8b5cf6;
+  flex-shrink: 0;
+}
+
+.feature-block h4 {
   font-size: 1.125rem;
   font-weight: 600;
   color: #ffffff;
-  margin-bottom: 0.5rem;
+  margin: 0;
 }
 
-.feature-card p {
+.feature-block p {
   color: #94a3b8;
-  font-size: 0.875rem;
+  font-size: 0.9375rem;
+  line-height: 1.6;
+  margin: 0;
 }
 
 /* CTA Section */
@@ -3147,7 +3141,7 @@ main {
     grid-template-columns: 1fr;
   }
   
-  .feature-cards {
+  .feature-blocks {
     grid-template-columns: 1fr;
   }
   

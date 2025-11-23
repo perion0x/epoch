@@ -187,37 +187,55 @@ export default function Home() {
       <section className="features">
         <div className="features-grid">
           <div className="feature-main">
-            <h2>The Tech Stack</h2>
-            <h3>Built on the decentralized web.</h3>
+            <h2>THE TECH STACK</h2>
+            <h3>The Uncensorable Publishing Stack.</h3>
             <p>
-              Your content lives on Walrus decentralized storage. Your ownership is tracked on Sui blockchain. 
-              Your access control is managed by Seal. No single point of failure. No censorship. Forever.
+              We replaced the central server. The three core components of Epoch—Walrus for storage, Sui for ownership, and Seal for access—work together to ensure no single entity can ever take down your publication or seize your revenue. Your audience, your rules.
             </p>
-            <Link href="/whitepaper" className="link-arrow">
-              Read Whitepaper →
-            </Link>
           </div>
 
-          <div className="feature-cards">
-            <div className="feature-card">
-              <div className="card-icon">⚡</div>
-              <h4>Powered by Sui</h4>
-              <p>Instant transactions, minimal fees</p>
+          <div className="feature-blocks">
+            <div className="feature-block">
+              <div className="feature-block-header">
+                <svg className="feature-icon" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <circle cx="12" cy="12" r="10"/>
+                  <polyline points="12 6 12 12 16 14"/>
+                </svg>
+                <h4>Powered by Sui</h4>
+              </div>
+              <p>Instantaneous publishing and transaction finality with Sui's parallel execution.</p>
             </div>
-            <div className="feature-card">
-              <div className="card-icon">💾</div>
-              <h4>Stored on Walrus</h4>
-              <p>Decentralized, permanent storage</p>
+
+            <div className="feature-block">
+              <div className="feature-block-header">
+                <svg className="feature-icon" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+                </svg>
+                <h4>Stored on Walrus</h4>
+              </div>
+              <p>Content stored as immutable decentralized blobs, independent of Epoch's servers.</p>
             </div>
-            <div className="feature-card">
-              <div className="card-icon">🛡️</div>
-              <h4>Secured by Seal</h4>
-              <p>Cryptographic access control</p>
+
+            <div className="feature-block">
+              <div className="feature-block-header">
+                <svg className="feature-icon" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                  <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                </svg>
+                <h4>Secured by Seal</h4>
+              </div>
+              <p>Proof-of-ownership and access control secured by on-chain identity protocols.</p>
             </div>
-            <div className="feature-card">
-              <div className="card-icon">🔐</div>
-              <h4>Crypto Native</h4>
-              <p>Built-in payments & ownership</p>
+
+            <div className="feature-block">
+              <div className="feature-block-header">
+                <svg className="feature-icon" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <line x1="12" y1="1" x2="12" y2="23"/>
+                  <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+                </svg>
+                <h4>Crypto Native</h4>
+              </div>
+              <p>Payments are settled instantly on-chain, cutting out the middlemen and platform fees.</p>
             </div>
           </div>
         </div>
