@@ -32,10 +32,13 @@ export default function Home() {
           </p>
 
           <div className="sui-badge">
-            <svg width="120" height="40" viewBox="0 0 120 40" fill="none">
-              <text x="10" y="25" fill="#6C93FF" fontSize="16" fontWeight="600">POWERED BY</text>
-              <text x="10" y="35" fill="#4C6FFF" fontSize="12" fontWeight="700">SUI</text>
+            <div className="powered-by-text">POWERED BY</div>
+            <svg width="120" height="40" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M256 0C114.6 0 0 114.6 0 256s114.6 256 256 256 256-114.6 256-256S397.4 0 256 0zm0 464c-114.7 0-208-93.3-208-208S141.3 48 256 48s208 93.3 208 208-93.3 208-208 208z" fill="#4DA2FF"/>
+              <path d="M256 96c-88.4 0-160 71.6-160 160s71.6 160 160 160 160-71.6 160-160S344.4 96 256 96zm0 272c-61.9 0-112-50.1-112-112s50.1-112 112-112 112 50.1 112 112-50.1 112-112 112z" fill="#4DA2FF"/>
+              <path d="M256 176c-44.2 0-80 35.8-80 80s35.8 80 80 80 80-35.8 80-80-35.8-80-80-80z" fill="#6FB1FF"/>
             </svg>
+            <span className="sui-text">Sui</span>
           </div>
 
           <div className="hero-actions">

@@ -2512,6 +2512,28 @@ main {
   margin: 2rem 0;
   display: flex;
   justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  flex-direction: column;
+}
+
+.powered-by-text {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #9ca3af;
+  letter-spacing: 0.1em;
+}
+
+.sui-badge svg {
+  width: 60px;
+  height: 60px;
+}
+
+.sui-text {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #4DA2FF;
+  letter-spacing: 0.05em;
 }
 
 .hero-actions {
