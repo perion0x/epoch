@@ -66,9 +66,9 @@ export default function TestGaslessPage() {
   };
 
   return (
-    <div style={{ minHeight: '100vh', backgroundColor: '#020617', fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif' }}>
+    <div style={{ minHeight: '100vh', backgroundColor: '#020617', fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif', zoom: '0.9' }}>
       {/* Navigation */}
-      <div style={{ padding: '20px 40px', borderBottom: '1px solid #1e293b' }}>
+      <div style={{ padding: '20px 40px', borderBottom: '1px solid #1e293b', background: 'linear-gradient(135deg, #020617 0%, #0f172a 100%)' }}>
         <a
           href="/"
           style={{
@@ -224,7 +224,7 @@ export default function TestGaslessPage() {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          backgroundColor: '#0a0f1e'
+          background: 'linear-gradient(135deg, #020617 0%, #0f172a 100%)'
         }}>
           <div style={{ width: '100%', maxWidth: '480px' }}>
             <form 
