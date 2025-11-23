@@ -3447,3 +3447,10 @@ main {
 /* Two-Column Layout Responsive - Page-Specific for /test-gasless */
 /* Keep side-by-side layout at all screen sizes */
 /* Removed stacking behavior - columns stay left and right */
+
+/* Gasless Page Zoom - Applied immediately to prevent flash */
+.gasless-page-container {
+  zoom: 0.9;
+  -moz-transform: scale(0.9);
+  -moz-transform-origin: 0 0;
+}

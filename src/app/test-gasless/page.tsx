@@ -66,7 +66,7 @@ export default function TestGaslessPage() {
   };
 
   return (
-    <div style={{ minHeight: '100vh', backgroundColor: '#020617', fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif', zoom: '0.9' }}>
+    <div className="gasless-page-container" style={{ minHeight: '100vh', backgroundColor: '#020617', fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif' }}>
       {/* Navigation */}
       <div style={{ padding: '20px 40px', borderBottom: '1px solid #1e293b', background: 'linear-gradient(135deg, #020617 0%, #0f172a 100%)' }}>
         <a
@@ -387,80 +387,132 @@ export default function TestGaslessPage() {
       )}
 
       {result && (
-        <div
-          style={{
-            padding: '20px',
-            backgroundColor: 'rgba(34, 197, 94, 0.1)',
-            border: '1px solid #166534',
-            borderRadius: '4px',
-            color: '#86efac',
-          }}
-        >
-          <h3 style={{ marginTop: 0, color: '#86efac', fontSize: '20px', fontWeight: '600' }}>Newsletter Created Successfully</h3>
-          <div style={{ fontSize: '14px', marginBottom: '15px', color: '#86efac' }}>
-            <p>
-              <strong>Newsletter ID:</strong>
-              <br />
-              <code style={{ fontSize: '12px', wordBreak: 'break-all', color: '#86efac' }}>
-                {result.newsletterId}
-              </code>
-            </p>
-            <p>
-              <strong>Transaction Hash:</strong>
-              <br />
-              <code style={{ fontSize: '12px', wordBreak: 'break-all', color: '#86efac' }}>
-                {result.transactionDigest}
-              </code>
-            </p>
-            <div style={{ display: 'flex', gap: '10px', marginTop: '15px', flexWrap: 'wrap' }}>
-              <a
-                href={`https://testnet.suivision.xyz/txblock/${result.transactionDigest}`}
-                target="_blank"
-                rel="noopener noreferrer"
+        <>
+          {/* Modal Overlay */}
+          <div
+            style={{
+              position: 'fixed',
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              backgroundColor: 'rgba(0, 0, 0, 0.7)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              zIndex: 1000,
+              backdropFilter: 'blur(4px)',
+            }}
+            onClick={() => setResult(null)}
+          >
+            {/* Modal Content */}
+            <div
+              style={{
+                backgroundColor: '#0f172a',
+                border: '2px solid #10b981',
+                borderRadius: '16px',
+                padding: '40px',
+                maxWidth: '500px',
+                width: '90%',
+                boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.5)',
+                position: 'relative',
+              }}
+              onClick={(e) => e.stopPropagation()}
+            >
+              {/* Success Icon */}
+              <div style={{ textAlign: 'center', marginBottom: '24px' }}>
+                <div style={{ 
+                  fontSize: '64px', 
+                  marginBottom: '16px',
+                  animation: 'bounce 1s ease-in-out'
+                }}>
+                  🎉
+                </div>
+                <h3 style={{ 
+                  margin: 0, 
+                  color: '#10b981', 
+                  fontSize: '28px', 
+                  fontWeight: '700',
+                  marginBottom: '8px'
+                }}>
+                  Newsletter Created Successfully!
+                </h3>
+                <p style={{ 
+                  color: '#94a3b8', 
+                  fontSize: '16px',
+                  margin: 0
+                }}>
+                  Your newsletter is now live on Sui blockchain
+                </p>
+              </div>
+
+              {/* Action Buttons */}
+              <div style={{ 
+                display: 'flex', 
+                flexDirection: 'column',
+                gap: '12px',
+                marginBottom: '20px'
+              }}>
+                <a
+                  href={`/test-issue?newsletterId=${result.newsletterId}`}
+                  style={{
+                    display: 'block',
+                    padding: '14px 24px',
+                    background: 'linear-gradient(to right, #9333ea, #06b6d4)',
+                    color: 'white',
+                    textDecoration: 'none',
+                    borderRadius: '8px',
+                    fontSize: '16px',
+                    fontWeight: '600',
+                    textAlign: 'center',
+                    transition: 'transform 0.2s',
+                  }}
+                  onMouseEnter={(e) => e.currentTarget.style.transform = 'translateY(-2px)'}
+                  onMouseLeave={(e) => e.currentTarget.style.transform = 'translateY(0)'}
+                >
+                  Publish First Issue →
+                </a>
+              </div>
+
+              {/* View on SuiVision Link */}
+              <div style={{ textAlign: 'center', paddingTop: '16px', borderTop: '1px solid #1e293b' }}>
+                <a
+                  href={`https://testnet.suivision.xyz/txblock/${result.transactionDigest}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{
+                    color: '#3b82f6',
+                    textDecoration: 'underline',
+                    fontSize: '14px',
+                    fontWeight: '500',
+                  }}
+                >
+                  View on SuiVision ↗
+                </a>
+              </div>
+
+              {/* Close Button */}
+              <button
+                onClick={() => setResult(null)}
                 style={{
-                  display: 'inline-block',
-                  padding: '10px 18px',
-                  backgroundColor: '#3b82f6',
-                  color: 'white',
-                  textDecoration: 'none',
-                  borderRadius: '6px',
-                  fontSize: '14px',
-                  fontWeight: '600',
+                  position: 'absolute',
+                  top: '16px',
+                  right: '16px',
+                  background: 'transparent',
+                  border: 'none',
+                  color: '#64748b',
+                  fontSize: '24px',
+                  cursor: 'pointer',
+                  padding: '4px 8px',
+                  lineHeight: 1,
                 }}
               >
-                View on SuiVision
-              </a>
-              <a
-                href={`/test-issue?newsletterId=${result.newsletterId}`}
-                style={{
-                  display: 'inline-block',
-                  padding: '10px 18px',
-                  background: 'linear-gradient(to right, #9333ea, #06b6d4)',
-                  color: 'white',
-                  textDecoration: 'none',
-                  borderRadius: '6px',
-                  fontSize: '14px',
-                  fontWeight: '600',
-                }}
-              >
-                Publish First Issue →
-              </a>
+                ×
+              </button>
             </div>
           </div>
-          <div style={{ fontSize: '13px', fontFamily: 'monospace', color: '#86efac' }}>
-            <p>
-              <strong>Your Address:</strong>
-              <br />
-              <code style={{ fontSize: '11px', wordBreak: 'break-all', color: '#86efac' }}>
-                {result.userAddress}
-              </code>
-            </p>
-          </div>
-          <p style={{ fontSize: '14px', marginTop: '15px', color: '#86efac' }}>
-            No wallet connected, no gas fees paid.
-          </p>
-        </div>
-            )}
+        </>
+      )}
           </div>
         </div>
       </div>
