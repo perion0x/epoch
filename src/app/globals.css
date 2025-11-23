@@ -3449,9 +3449,16 @@ main {
 /* Removed stacking behavior - columns stay left and right */
 
 /* Gasless Page Zoom - Applied immediately to prevent flash */
+/* Use transform with !important to ensure it's never overridden */
 .gasless-page-container {
-  transform: scale(0.9);
-  transform-origin: top center;
-  width: 111.11%; /* Compensate for scale to maintain full width */
-  margin-left: -5.56%; /* Center the scaled content */
+  transform: scale(0.9) !important;
+  transform-origin: top center !important;
+  width: 111.11% !important;
+  margin-left: -5.56% !important;
+  min-height: 100vh !important;
+}
+
+/* Ensure the scale is applied before any content renders */
+html:has(.gasless-page-container) {
+  overflow-x: hidden;
 }

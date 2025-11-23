@@ -74,8 +74,18 @@ export default function TestGaslessPage() {
   };
 
   return (
-    <div className="gasless-page-container" style={{ minHeight: '100vh', backgroundColor: '#020617', fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif' }}>
-      {/* Navigation */}
+    <>
+      {/* Inline critical CSS to prevent flash */}
+      <style dangerouslySetInnerHTML={{__html: `
+        .gasless-page-container {
+          transform: scale(0.9) !important;
+          transform-origin: top center !important;
+          width: 111.11% !important;
+          margin-left: -5.56% !important;
+        }
+      `}} />
+      <div className="gasless-page-container" style={{ minHeight: '100vh', backgroundColor: '#020617', fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif' }}>
+        {/* Navigation */}
       <div style={{ padding: '20px 40px', borderBottom: '1px solid #1e293b', background: 'linear-gradient(135deg, #020617 0%, #0f172a 100%)' }}>
         <a
           href="/"
@@ -525,5 +535,6 @@ export default function TestGaslessPage() {
         </div>
       </div>
     </div>
+    </>
   );
 }
