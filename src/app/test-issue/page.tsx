@@ -47,7 +47,8 @@ function TestIssueContent() {
   };
 
   return (
-    <div style={{ maxWidth: '800px', margin: '50px auto', padding: '20px', minHeight: '100vh', backgroundColor: '#020617' }}>
+    <div style={{ minHeight: '100vh', backgroundColor: '#020617' }}>
+      <div style={{ maxWidth: '800px', margin: '0 auto', padding: '50px 20px' }}>
       <a
         href="/"
         style={{
@@ -246,13 +247,14 @@ function TestIssueContent() {
           </p>
         </div>
       )}
+      </div>
     </div>
   );
 }
 
 export default function TestIssuePage() {
   return (
-    <Suspense fallback={<div style={{ padding: '50px', textAlign: 'center' }}>Loading...</div>}>
+    <Suspense fallback={<div style={{ padding: '50px', textAlign: 'center', minHeight: '100vh', backgroundColor: '#020617', color: '#ffffff' }}>Loading...</div>}>
       <TestIssueContent />
     </Suspense>
   );

@@ -42,7 +42,8 @@ export default function TestGaslessPage() {
   };
 
   return (
-    <div style={{ maxWidth: '600px', margin: '50px auto', padding: '20px', minHeight: '100vh', backgroundColor: '#020617' }}>
+    <div style={{ minHeight: '100vh', backgroundColor: '#020617' }}>
+      <div style={{ maxWidth: '600px', margin: '0 auto', padding: '50px 20px' }}>
       <a
         href="/"
         style={{
@@ -237,6 +238,7 @@ export default function TestGaslessPage() {
           <li>Platform sponsors the gas fees</li>
           <li>Newsletter is created on Sui blockchain</li>
         </ol>
+      </div>
       </div>
     </div>
   );
