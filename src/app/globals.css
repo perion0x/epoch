@@ -3450,7 +3450,8 @@ main {
 
 /* Gasless Page Zoom - Applied immediately to prevent flash */
 .gasless-page-container {
-  zoom: 0.9;
-  -moz-transform: scale(0.9);
-  -moz-transform-origin: 0 0;
+  transform: scale(0.9);
+  transform-origin: top center;
+  width: 111.11%; /* Compensate for scale to maintain full width */
+  margin-left: -5.56%; /* Center the scaled content */
 }
