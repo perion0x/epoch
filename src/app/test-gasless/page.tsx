@@ -10,6 +10,7 @@ import { createGaslessNewsletter } from '@/services/gasless-newsletter';
 export default function TestGaslessPage() {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
+  const [handle, setHandle] = useState('');
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<any>(null);
   const [error, setError] = useState<string | null>(null);
@@ -60,54 +61,102 @@ export default function TestGaslessPage() {
       >
         ← Back to Home
       </a>
-      <h1 style={{ color: '#ffffff' }}>🚀 Test Gasless Newsletter Creation</h1>
-      <p style={{ color: '#94a3b8', marginBottom: '30px' }}>
-        Create a newsletter without connecting a wallet or paying gas fees!
+      <h1 style={{ color: '#ffffff', fontSize: '36px', marginBottom: '12px', fontWeight: '700' }}>
+        Launch Your Newsletter, Gas-Free
+      </h1>
+      <p style={{ color: '#94a3b8', marginBottom: '40px', fontSize: '18px', lineHeight: '1.6' }}>
+        Start publishing on Sui without connecting a wallet or paying transaction fees. Own your content from day one.
       </p>
 
-      <form onSubmit={handleSubmit} style={{ marginBottom: '30px' }}>
-        <div style={{ marginBottom: '20px' }}>
-          <label style={{ display: 'block', marginBottom: '8px', fontWeight: 'bold', color: '#cbd5e1' }}>
+      <form 
+        onSubmit={handleSubmit} 
+        style={{ 
+          marginBottom: '30px',
+          backgroundColor: '#0f172a',
+          padding: '32px',
+          borderRadius: '8px',
+          border: '1px solid #334155'
+        }}
+      >
+        <div style={{ marginBottom: '24px' }}>
+          <label style={{ display: 'block', marginBottom: '8px', fontWeight: '600', color: '#e2e8f0', fontSize: '14px' }}>
             Newsletter Title
           </label>
           <input
             type="text"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
-            placeholder="Enter newsletter title..."
+            placeholder="My Awesome Newsletter"
             required
             style={{
               width: '100%',
-              padding: '10px',
+              padding: '12px 14px',
               fontSize: '16px',
-              border: '1px solid #475569',
-              borderRadius: '4px',
+              border: '2px solid #334155',
+              borderRadius: '6px',
               backgroundColor: '#1e293b',
               color: '#ffffff',
+              transition: 'border-color 0.2s',
+              outline: 'none',
             }}
+            onFocus={(e) => e.target.style.borderColor = '#3b82f6'}
+            onBlur={(e) => e.target.style.borderColor = '#334155'}
           />
         </div>
 
-        <div style={{ marginBottom: '20px' }}>
-          <label style={{ display: 'block', marginBottom: '8px', fontWeight: 'bold', color: '#cbd5e1' }}>
+        <div style={{ marginBottom: '24px' }}>
+          <label style={{ display: 'block', marginBottom: '8px', fontWeight: '600', color: '#e2e8f0', fontSize: '14px' }}>
+            Custom Handle <span style={{ color: '#64748b', fontWeight: '400' }}>(Optional)</span>
+          </label>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <span style={{ color: '#64748b', fontSize: '16px', fontWeight: '500' }}>epoch.app/</span>
+            <input
+              type="text"
+              value={handle}
+              onChange={(e) => setHandle(e.target.value.toLowerCase().replace(/[^a-z0-9-]/g, ''))}
+              placeholder="your-handle"
+              style={{
+                flex: 1,
+                padding: '12px 14px',
+                fontSize: '16px',
+                border: '2px solid #334155',
+                borderRadius: '6px',
+                backgroundColor: '#1e293b',
+                color: '#ffffff',
+                transition: 'border-color 0.2s',
+                outline: 'none',
+              }}
+              onFocus={(e) => e.target.style.borderColor = '#3b82f6'}
+              onBlur={(e) => e.target.style.borderColor = '#334155'}
+            />
+          </div>
+        </div>
+
+        <div style={{ marginBottom: '24px' }}>
+          <label style={{ display: 'block', marginBottom: '8px', fontWeight: '600', color: '#e2e8f0', fontSize: '14px' }}>
             Description
           </label>
           <textarea
             value={description}
             onChange={(e) => setDescription(e.target.value)}
-            placeholder="Describe your newsletter..."
+            placeholder="What will you write about?"
             required
             rows={4}
             style={{
               width: '100%',
-              padding: '10px',
+              padding: '12px 14px',
               fontSize: '16px',
-              border: '1px solid #475569',
-              borderRadius: '4px',
+              border: '2px solid #334155',
+              borderRadius: '6px',
               fontFamily: 'inherit',
               backgroundColor: '#1e293b',
               color: '#ffffff',
+              transition: 'border-color 0.2s',
+              outline: 'none',
+              resize: 'vertical',
             }}
+            onFocus={(e) => e.target.style.borderColor = '#3b82f6'}
+            onBlur={(e) => e.target.style.borderColor = '#334155'}
           />
         </div>
 
@@ -116,17 +165,20 @@ export default function TestGaslessPage() {
           disabled={loading}
           style={{
             width: '100%',
-            padding: '12px',
+            padding: '14px',
             fontSize: '16px',
-            fontWeight: 'bold',
+            fontWeight: '600',
             color: 'white',
             background: loading ? '#64748b' : 'linear-gradient(to right, #9333ea, #06b6d4)',
             border: 'none',
-            borderRadius: '4px',
+            borderRadius: '6px',
             cursor: loading ? 'not-allowed' : 'pointer',
+            transition: 'opacity 0.2s',
           }}
+          onMouseEnter={(e) => !loading && (e.currentTarget.style.opacity = '0.9')}
+          onMouseLeave={(e) => e.currentTarget.style.opacity = '1'}
         >
-          {loading ? 'Creating...' : '✨ Create Newsletter (Gasless)'}
+          {loading ? 'Creating...' : 'Launch Newsletter for Free'}
         </button>
       </form>
 
@@ -155,7 +207,7 @@ export default function TestGaslessPage() {
             color: '#86efac',
           }}
         >
-          <h3 style={{ marginTop: 0, color: '#86efac' }}>🎉 You have created a newsletter on Sui!</h3>
+          <h3 style={{ marginTop: 0, color: '#86efac', fontSize: '20px', fontWeight: '600' }}>Newsletter Created Successfully</h3>
           <div style={{ fontSize: '14px', marginBottom: '15px', color: '#86efac' }}>
             <p>
               <strong>Newsletter ID:</strong>
@@ -178,31 +230,31 @@ export default function TestGaslessPage() {
                 rel="noopener noreferrer"
                 style={{
                   display: 'inline-block',
-                  padding: '8px 16px',
-                  backgroundColor: '#007bff',
+                  padding: '10px 18px',
+                  backgroundColor: '#3b82f6',
                   color: 'white',
                   textDecoration: 'none',
-                  borderRadius: '4px',
+                  borderRadius: '6px',
                   fontSize: '14px',
-                  fontWeight: 'bold',
+                  fontWeight: '600',
                 }}
               >
-                🔍 View on SuiVision
+                View on SuiVision
               </a>
               <a
                 href={`/test-issue?newsletterId=${result.newsletterId}`}
                 style={{
                   display: 'inline-block',
-                  padding: '8px 16px',
-                  backgroundColor: '#28a745',
+                  padding: '10px 18px',
+                  background: 'linear-gradient(to right, #9333ea, #06b6d4)',
                   color: 'white',
                   textDecoration: 'none',
-                  borderRadius: '4px',
+                  borderRadius: '6px',
                   fontSize: '14px',
-                  fontWeight: 'bold',
+                  fontWeight: '600',
                 }}
               >
-                📝 Publish First Issue →
+                Publish First Issue →
               </a>
             </div>
           </div>
@@ -216,7 +268,7 @@ export default function TestGaslessPage() {
             </p>
           </div>
           <p style={{ fontSize: '14px', marginTop: '15px', color: '#86efac' }}>
-            💡 No wallet connected, no gas fees paid!
+            No wallet connected, no gas fees paid.
           </p>
         </div>
       )}
@@ -224,19 +276,21 @@ export default function TestGaslessPage() {
       <div
         style={{
           marginTop: '40px',
-          padding: '15px',
-          backgroundColor: '#1e293b',
-          border: '1px solid #475569',
-          borderRadius: '4px',
+          padding: '24px',
+          backgroundColor: '#0f172a',
+          border: '1px solid #334155',
+          borderRadius: '8px',
           fontSize: '14px',
         }}
       >
-        <h4 style={{ marginTop: 0, color: '#cbd5e1' }}>ℹ️ How it works:</h4>
-        <ol style={{ paddingLeft: '20px', margin: 0, color: '#94a3b8' }}>
-          <li>A temporary keypair is generated for you</li>
+        <h4 style={{ marginTop: 0, marginBottom: '16px', color: '#e2e8f0', fontSize: '16px', fontWeight: '600' }}>
+          How it works
+        </h4>
+        <ol style={{ paddingLeft: '20px', margin: 0, color: '#94a3b8', lineHeight: '1.8' }}>
+          <li>A temporary <strong style={{ color: '#cbd5e1' }}>keypair</strong> is generated for you</li>
           <li>Transaction is built and signed with your keypair</li>
-          <li>Platform sponsors the gas fees</li>
-          <li>Newsletter is created on Sui blockchain</li>
+          <li><strong style={{ color: '#cbd5e1' }}>Platform sponsors the gas fees</strong></li>
+          <li>Newsletter is created on <strong style={{ color: '#cbd5e1' }}>Sui blockchain</strong></li>
         </ol>
       </div>
       </div>
