@@ -66,41 +66,180 @@ export default function TestGaslessPage() {
   };
 
   return (
-    <div style={{ minHeight: '100vh', backgroundColor: '#020617' }}>
-      <div style={{ maxWidth: '600px', margin: '0 auto', padding: '50px 20px' }}>
-      <a
-        href="/"
-        style={{
-          display: 'inline-block',
-          marginBottom: '20px',
-          padding: '8px 16px',
-          backgroundColor: '#1e293b',
-          color: '#e2e8f0',
-          textDecoration: 'none',
-          borderRadius: '4px',
-          fontSize: '14px',
-          fontWeight: 'bold',
-        }}
-      >
-        ← Back to Home
-      </a>
-      <h1 style={{ color: '#ffffff', fontSize: '36px', marginBottom: '12px', fontWeight: '700' }}>
-        Launch Your Newsletter, Gas-Free
-      </h1>
-      <p style={{ color: '#94a3b8', marginBottom: '40px', fontSize: '18px', lineHeight: '1.6' }}>
-        Start publishing on Sui without connecting a wallet or paying transaction fees. Own your content from day one.
-      </p>
+    <div style={{ minHeight: '100vh', backgroundColor: '#020617', fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif' }}>
+      {/* Navigation */}
+      <div style={{ padding: '20px 40px', borderBottom: '1px solid #1e293b' }}>
+        <a
+          href="/"
+          style={{
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: '8px',
+            color: '#94a3b8',
+            textDecoration: 'none',
+            fontSize: '14px',
+            fontWeight: '500',
+            transition: 'color 0.2s',
+          }}
+          onMouseEnter={(e) => e.currentTarget.style.color = '#e2e8f0'}
+          onMouseLeave={(e) => e.currentTarget.style.color = '#94a3b8'}
+        >
+          <span>←</span> Back to Home
+        </a>
+      </div>
 
-      <form 
-        onSubmit={handleSubmit} 
-        style={{ 
-          marginBottom: '30px',
-          backgroundColor: '#0f172a',
-          padding: '32px',
-          borderRadius: '8px',
-          border: '1px solid #334155'
-        }}
-      >
+      {/* Two-Column Layout */}
+      <div style={{ 
+        display: 'grid', 
+        gridTemplateColumns: window.innerWidth >= 1024 ? '1fr 1fr' : '1fr',
+        minHeight: 'calc(100vh - 73px)',
+        gap: '0'
+      }}>
+        
+        {/* Left Column - Value Proposition */}
+        <div style={{ 
+          padding: '80px 60px',
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          background: 'linear-gradient(135deg, #020617 0%, #0f172a 100%)'
+        }}>
+          <div style={{ maxWidth: '540px' }}>
+            <h1 style={{ 
+              color: '#ffffff', 
+              fontSize: '48px', 
+              marginBottom: '24px', 
+              fontWeight: '700',
+              lineHeight: '1.1',
+              letterSpacing: '-0.02em'
+            }}>
+              Launch Your Newsletter,{' '}
+              <span style={{ 
+                background: 'linear-gradient(135deg, #8b5cf6 0%, #06b6d4 100%)',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                backgroundClip: 'text'
+              }}>
+                Gas-Free
+              </span>
+            </h1>
+            
+            <p style={{ 
+              color: '#94a3b8', 
+              marginBottom: '48px', 
+              fontSize: '18px', 
+              lineHeight: '1.7',
+              fontWeight: '400'
+            }}>
+              Start publishing on Sui without connecting a wallet or paying transaction fees. Own your content from day one.
+            </p>
+
+            {/* How it Works */}
+            <div style={{ marginTop: '48px' }}>
+              <h3 style={{ 
+                color: '#e2e8f0', 
+                fontSize: '16px', 
+                fontWeight: '600', 
+                marginBottom: '24px',
+                textTransform: 'uppercase',
+                letterSpacing: '0.05em'
+              }}>
+                How it Works
+              </h3>
+              
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+                <div style={{ display: 'flex', gap: '16px', alignItems: 'start' }}>
+                  <div style={{ 
+                    width: '40px', 
+                    height: '40px', 
+                    borderRadius: '8px',
+                    background: 'linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    flexShrink: 0
+                  }}>
+                    <span style={{ fontSize: '20px' }}>🔑</span>
+                  </div>
+                  <div>
+                    <div style={{ color: '#e2e8f0', fontWeight: '600', marginBottom: '4px' }}>
+                      Temporary Keypair Generated
+                    </div>
+                    <div style={{ color: '#64748b', fontSize: '14px', lineHeight: '1.5' }}>
+                      A secure keypair is created for your session
+                    </div>
+                  </div>
+                </div>
+
+                <div style={{ display: 'flex', gap: '16px', alignItems: 'start' }}>
+                  <div style={{ 
+                    width: '40px', 
+                    height: '40px', 
+                    borderRadius: '8px',
+                    background: 'linear-gradient(135deg, #06b6d4 0%, #0891b2 100%)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    flexShrink: 0
+                  }}>
+                    <span style={{ fontSize: '20px' }}>⛽</span>
+                  </div>
+                  <div>
+                    <div style={{ color: '#e2e8f0', fontWeight: '600', marginBottom: '4px' }}>
+                      Platform Sponsors Gas Fees
+                    </div>
+                    <div style={{ color: '#64748b', fontSize: '14px', lineHeight: '1.5' }}>
+                      No wallet needed, no transaction costs
+                    </div>
+                  </div>
+                </div>
+
+                <div style={{ display: 'flex', gap: '16px', alignItems: 'start' }}>
+                  <div style={{ 
+                    width: '40px', 
+                    height: '40px', 
+                    borderRadius: '8px',
+                    background: 'linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    flexShrink: 0
+                  }}>
+                    <span style={{ fontSize: '20px' }}>⛓️</span>
+                  </div>
+                  <div>
+                    <div style={{ color: '#e2e8f0', fontWeight: '600', marginBottom: '4px' }}>
+                      Published on Sui Blockchain
+                    </div>
+                    <div style={{ color: '#64748b', fontSize: '14px', lineHeight: '1.5' }}>
+                      Immutable, decentralized, and truly yours
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Right Column - Form */}
+        <div style={{ 
+          padding: '80px 60px',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          backgroundColor: '#0a0f1e'
+        }}>
+          <div style={{ width: '100%', maxWidth: '480px' }}>
+            <form 
+              onSubmit={handleSubmit} 
+              style={{ 
+                backgroundColor: '#0f172a',
+                padding: '40px',
+                borderRadius: '16px',
+                border: '1px solid #1e293b',
+                boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.3), 0 10px 10px -5px rgba(0, 0, 0, 0.2)'
+              }}
+            >
         <div style={{ marginBottom: '24px' }}>
           <label style={{ display: 'block', marginBottom: '8px', fontWeight: '600', color: '#e2e8f0', fontSize: '14px' }}>
             Newsletter Title
@@ -166,29 +305,40 @@ export default function TestGaslessPage() {
           />
         </div>
 
-        <button
-          type="submit"
-          disabled={loading}
-          style={{
-            width: '100%',
-            padding: '14px',
-            fontSize: '16px',
-            fontWeight: '600',
-            color: 'white',
-            background: loading ? '#64748b' : 'linear-gradient(to right, #9333ea, #06b6d4)',
-            border: 'none',
-            borderRadius: '6px',
-            cursor: loading ? 'not-allowed' : 'pointer',
-            transition: 'opacity 0.2s',
-          }}
-          onMouseEnter={(e) => !loading && (e.currentTarget.style.opacity = '0.9')}
-          onMouseLeave={(e) => e.currentTarget.style.opacity = '1'}
-        >
-          {loading ? 'Creating...' : 'Launch Newsletter for Free'}
-        </button>
-      </form>
+              <button
+                type="submit"
+                disabled={loading}
+                style={{
+                  width: '100%',
+                  padding: '16px',
+                  fontSize: '16px',
+                  fontWeight: '600',
+                  color: 'white',
+                  background: loading ? '#64748b' : '#8b5cf6',
+                  border: 'none',
+                  borderRadius: '8px',
+                  cursor: loading ? 'not-allowed' : 'pointer',
+                  transition: 'all 0.2s',
+                  boxShadow: loading ? 'none' : '0 4px 6px -1px rgba(139, 92, 246, 0.3)',
+                }}
+                onMouseEnter={(e) => {
+                  if (!loading) {
+                    e.currentTarget.style.background = '#7c3aed';
+                    e.currentTarget.style.transform = 'translateY(-1px)';
+                    e.currentTarget.style.boxShadow = '0 6px 8px -1px rgba(139, 92, 246, 0.4)';
+                  }
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.background = loading ? '#64748b' : '#8b5cf6';
+                  e.currentTarget.style.transform = 'translateY(0)';
+                  e.currentTarget.style.boxShadow = loading ? 'none' : '0 4px 6px -1px rgba(139, 92, 246, 0.3)';
+                }}
+              >
+                {loading ? 'Creating...' : 'Launch Newsletter for Free'}
+              </button>
+            </form>
 
-      {error && (
+            {error && (
         <div
           style={{
             padding: '15px',
@@ -277,28 +427,9 @@ export default function TestGaslessPage() {
             No wallet connected, no gas fees paid.
           </p>
         </div>
-      )}
-
-      <div
-        style={{
-          marginTop: '40px',
-          padding: '24px',
-          backgroundColor: '#0f172a',
-          border: '1px solid #334155',
-          borderRadius: '8px',
-          fontSize: '14px',
-        }}
-      >
-        <h4 style={{ marginTop: 0, marginBottom: '16px', color: '#e2e8f0', fontSize: '16px', fontWeight: '600' }}>
-          How it works
-        </h4>
-        <ol style={{ paddingLeft: '20px', margin: 0, color: '#94a3b8', lineHeight: '1.8' }}>
-          <li>A temporary <strong style={{ color: '#cbd5e1' }}>keypair</strong> is generated for you</li>
-          <li>Transaction is built and signed with your keypair</li>
-          <li><strong style={{ color: '#cbd5e1' }}>Platform sponsors the gas fees</strong></li>
-          <li>Newsletter is created on <strong style={{ color: '#cbd5e1' }}>Sui blockchain</strong></li>
-        </ol>
-      </div>
+            )}
+          </div>
+        </div>
       </div>
     </div>
   );
