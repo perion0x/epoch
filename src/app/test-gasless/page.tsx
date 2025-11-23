@@ -136,18 +136,21 @@ export default function TestGaslessPage() {
               Start publishing on Sui without connecting a wallet or paying transaction fees. Own your content from day one.
             </p>
 
-            {/* How it Works */}
+            {/* Platform Features */}
             <div style={{ marginTop: '48px' }}>
               <h3 style={{ 
                 color: '#e2e8f0', 
                 fontSize: '16px', 
                 fontWeight: '600', 
-                marginBottom: '24px',
+                marginBottom: '8px',
                 textTransform: 'uppercase',
                 letterSpacing: '0.05em'
               }}>
-                How it Works
+                Platform Features
               </h3>
+              <p style={{ color: '#64748b', fontSize: '14px', marginBottom: '24px' }}>
+                The Gas-Free Advantage
+              </p>
               
               <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
                 <div style={{ display: 'flex', gap: '16px', alignItems: 'start' }}>
@@ -242,70 +245,106 @@ export default function TestGaslessPage() {
                 boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.3), 0 10px 10px -5px rgba(0, 0, 0, 0.2)'
               }}
             >
-        <div style={{ marginBottom: '24px' }}>
-          <label style={{ display: 'block', marginBottom: '8px', fontWeight: '600', color: '#e2e8f0', fontSize: '14px' }}>
-            Newsletter Title
-          </label>
-          <input
-            type="text"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            placeholder="My Awesome Newsletter"
-            required
-            style={{
-              width: '100%',
-              padding: '12px 14px',
-              fontSize: '16px',
-              border: '2px solid #334155',
-              borderRadius: '6px',
-              backgroundColor: '#1e293b',
-              color: '#ffffff',
-              transition: 'border-color 0.2s',
-              outline: 'none',
-            }}
-            onFocus={(e) => e.target.style.borderColor = '#3b82f6'}
-            onBlur={(e) => e.target.style.borderColor = '#334155'}
-          />
-        </div>
+              <div style={{ marginBottom: '24px' }}>
+                <label style={{ display: 'block', marginBottom: '8px', fontWeight: '600', color: '#e2e8f0', fontSize: '14px' }}>
+                  Newsletter Title
+                </label>
+                <input
+                  type="text"
+                  value={title}
+                  onChange={(e) => setTitle(e.target.value)}
+                  placeholder="My Awesome Newsletter"
+                  required
+                  style={{
+                    width: '100%',
+                    padding: '12px 14px',
+                    fontSize: '16px',
+                    border: '2px solid #1e293b',
+                    borderRadius: '8px',
+                    backgroundColor: '#1e293b',
+                    color: '#ffffff',
+                    transition: 'all 0.2s',
+                    outline: 'none',
+                  }}
+                  onFocus={(e) => {
+                    e.target.style.borderColor = '#8b5cf6';
+                    e.target.style.boxShadow = '0 0 0 3px rgba(139, 92, 246, 0.1)';
+                  }}
+                  onBlur={(e) => {
+                    e.target.style.borderColor = '#1e293b';
+                    e.target.style.boxShadow = 'none';
+                  }}
+                />
+              </div>
 
-        <div style={{ marginBottom: '24px' }}>
-          <label style={{ display: 'block', marginBottom: '8px', fontWeight: '600', color: '#e2e8f0', fontSize: '14px' }}>
-            Custom Handle <span style={{ color: '#64748b', fontWeight: '400' }}>(Optional)</span>
-          </label>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <span style={{ color: '#64748b', fontSize: '16px', fontWeight: '500' }}>epoch.app/</span>
-            <input
-              type="text"
-              value={handle}
-              onChange={(e) => setHandle(e.target.value.toLowerCase().replace(/[^a-z0-9-]/g, ''))}
-              placeholder="your-handle"
-              style={{
-                flex: 1,
-                padding: '12px 14px',
-                fontSize: '16px',
-                border: '2px solid #334155',
-                borderRadius: '6px',
-                backgroundColor: '#1e293b',
-                color: '#ffffff',
-                transition: 'border-color 0.2s',
-                outline: 'none',
-              }}
-              onFocus={(e) => e.target.style.borderColor = '#3b82f6'}
-              onBlur={(e) => e.target.style.borderColor = '#334155'}
-            />
-          </div>
-        </div>
+              <div style={{ marginBottom: '24px' }}>
+                <label style={{ display: 'block', marginBottom: '8px', fontWeight: '600', color: '#e2e8f0', fontSize: '14px' }}>
+                  Custom Handle <span style={{ color: '#64748b', fontWeight: '400' }}>(Optional)</span>
+                </label>
+                <div style={{ 
+                  display: 'flex', 
+                  alignItems: 'stretch',
+                  border: '2px solid #1e293b',
+                  borderRadius: '8px',
+                  overflow: 'hidden',
+                  transition: 'all 0.2s',
+                  backgroundColor: '#1e293b'
+                }}
+                onFocus={(e) => {
+                  e.currentTarget.style.borderColor = '#8b5cf6';
+                  e.currentTarget.style.boxShadow = '0 0 0 3px rgba(139, 92, 246, 0.1)';
+                }}
+                onBlur={(e) => {
+                  e.currentTarget.style.borderColor = '#1e293b';
+                  e.currentTarget.style.boxShadow = 'none';
+                }}
+                >
+                  <span style={{ 
+                    padding: '12px 14px',
+                    backgroundColor: '#0f172a',
+                    color: '#64748b', 
+                    fontSize: '16px', 
+                    fontWeight: '500',
+                    borderRight: '1px solid #334155',
+                    display: 'flex',
+                    alignItems: 'center'
+                  }}>
+                    epoch.app/
+                  </span>
+                  <input
+                    type="text"
+                    value={handle}
+                    onChange={(e) => setHandle(e.target.value.toLowerCase().replace(/[^a-z0-9-]/g, ''))}
+                    placeholder="your-handle"
+                    style={{
+                      flex: 1,
+                      padding: '12px 14px',
+                      fontSize: '16px',
+                      border: 'none',
+                      backgroundColor: 'transparent',
+                      color: '#ffffff',
+                      outline: 'none',
+                    }}
+                  />
+                </div>
+                <p style={{ marginTop: '6px', fontSize: '13px', color: '#64748b' }}>
+                  Lowercase letters, numbers, and hyphens only
+                </p>
+              </div>
 
-        <div style={{ marginBottom: '24px' }}>
-          <label style={{ display: 'block', marginBottom: '12px', fontWeight: '600', color: '#e2e8f0', fontSize: '14px' }}>
-            Description
-          </label>
-          <KoenigEditor
-            initialValue={description}
-            onChange={(html, markdown) => setDescription(html)}
-            placeholder="What will you write about? Describe your newsletter..."
-          />
-        </div>
+              <div style={{ marginBottom: '24px' }}>
+                <label style={{ display: 'block', marginBottom: '8px', fontWeight: '600', color: '#e2e8f0', fontSize: '14px' }}>
+                  Description
+                </label>
+                <p style={{ marginBottom: '12px', fontSize: '13px', color: '#64748b' }}>
+                  Used for SEO and social media previews
+                </p>
+                <KoenigEditor
+                  initialValue={description}
+                  onChange={(html, markdown) => setDescription(html)}
+                  placeholder="What will you write about? Describe your newsletter..."
+                />
+              </div>
 
               <button
                 type="submit"
