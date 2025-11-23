@@ -2,6 +2,29 @@
 
 import { useState } from 'react';
 import { createGaslessNewsletter } from '@/services/gasless-newsletter';
+import dynamic from 'next/dynamic';
+
+// Dynamically import Koenig editor to avoid SSR issues
+const KoenigEditor = dynamic(() => import('@/components/KoenigEditor').then((mod) => ({ default: mod.KoenigEditor })), {
+  ssr: false,
+  loading: () => (
+    <div
+      style={{
+        minHeight: '200px',
+        padding: '20px',
+        backgroundColor: '#1e293b',
+        border: '2px solid #334155',
+        borderRadius: '6px',
+        color: '#64748b',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+      }}
+    >
+      Loading editor...
+    </div>
+  ),
+});
 
 /**
  * Test page for gasless newsletter creation
@@ -133,30 +156,13 @@ export default function TestGaslessPage() {
         </div>
 
         <div style={{ marginBottom: '24px' }}>
-          <label style={{ display: 'block', marginBottom: '8px', fontWeight: '600', color: '#e2e8f0', fontSize: '14px' }}>
+          <label style={{ display: 'block', marginBottom: '12px', fontWeight: '600', color: '#e2e8f0', fontSize: '14px' }}>
             Description
           </label>
-          <textarea
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-            placeholder="What will you write about?"
-            required
-            rows={4}
-            style={{
-              width: '100%',
-              padding: '12px 14px',
-              fontSize: '16px',
-              border: '2px solid #334155',
-              borderRadius: '6px',
-              fontFamily: 'inherit',
-              backgroundColor: '#1e293b',
-              color: '#ffffff',
-              transition: 'border-color 0.2s',
-              outline: 'none',
-              resize: 'vertical',
-            }}
-            onFocus={(e) => e.target.style.borderColor = '#3b82f6'}
-            onBlur={(e) => e.target.style.borderColor = '#334155'}
+          <KoenigEditor
+            initialValue={description}
+            onChange={(html, markdown) => setDescription(html)}
+            placeholder="What will you write about? Describe your newsletter..."
           />
         </div>
 
