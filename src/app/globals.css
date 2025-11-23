@@ -2498,6 +2498,24 @@ main {
   background-clip: text;
 }
 
+.wave-text {
+  display: inline-block;
+}
+
+.wave-text span {
+  display: inline-block;
+  animation: wave 2s ease-in-out infinite;
+}
+
+@keyframes wave {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
 .hero-description {
   font-size: 1.25rem;
   color: #6b7280;
@@ -2539,12 +2557,13 @@ main {
 }
 
 .btn-primary, .btn-black {
-  padding: 1rem 2rem;
+  padding: 1rem 2.3rem;
   border-radius: 0.5rem;
   font-weight: 600;
   text-decoration: none;
   transition: all 0.2s;
   display: inline-block;
+  min-width: 200px;
 }
 
 .btn-primary {

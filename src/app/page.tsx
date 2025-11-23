@@ -23,7 +23,11 @@ export default function Home() {
           
           <h1 className="hero-title">
             Turn your audience into a<br />
-            <span className="gradient-text">SOVEREIGNTY</span>
+            <span className="gradient-text wave-text">
+              {'SOVEREIGNTY'.split('').map((char, i) => (
+                <span key={i} style={{ animationDelay: `${i * 0.1}s` }}>{char}</span>
+              ))}
+            </span>
           </h1>
           
           <p className="hero-description">
