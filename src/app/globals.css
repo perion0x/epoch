@@ -3443,3 +3443,10 @@ main {
   color: #86efac;
   font-size: 0.9em;
 }
+
+/* Two-Column Layout Responsive */
+@media (max-width: 1024px) {
+  .two-column-layout {
+    grid-template-columns: 1fr !important;
+  }
+}

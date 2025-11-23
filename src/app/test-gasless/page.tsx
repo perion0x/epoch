@@ -91,10 +91,12 @@ export default function TestGaslessPage() {
       {/* Two-Column Layout */}
       <div style={{ 
         display: 'grid', 
-        gridTemplateColumns: window.innerWidth >= 1024 ? '1fr 1fr' : '1fr',
+        gridTemplateColumns: '1fr 1fr',
         minHeight: 'calc(100vh - 73px)',
         gap: '0'
-      }}>
+      }}
+      className="two-column-layout"
+      >
         
         {/* Left Column - Value Proposition */}
         <div style={{ 
