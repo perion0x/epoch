@@ -2505,7 +2505,7 @@ main {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  animation: wave 2s ease-in-out infinite;
+  animation: wave 1s ease-in-out infinite;
 }
 
 @keyframes wave {

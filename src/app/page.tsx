@@ -24,10 +24,10 @@ export default function Home() {
           </div>
           
           <h1 className="hero-title">
-            Turn your audience into a<br />
+            Publish Without{' '}
             <span className="gradient-text wave-text">
-              {Array.from('SOVEREIGNTY').map((char, i) => (
-                <span key={i} style={{ animationDelay: `${i * 0.1}s` }}>
+              {Array.from('Permission').map((char, i) => (
+                <span key={i} style={{ animationDelay: `${i * 0.05}s` }}>
                   {char}
                 </span>
               ))}
@@ -35,8 +35,7 @@ export default function Home() {
           </h1>
           
           <p className="hero-description">
-            Epoch is the decentralized publishing platform for creators who value ownership, 
-            censorship-resistance, and true independence. Built on Sui blockchain with Walrus storage.
+            Become a sovereign creator. The first newsletter platform built on Sui where you truly own your work. Uncensorable, immutable, and impossible to deplatform.
           </p>
 
           <div className="sui-badge">
@@ -59,7 +58,7 @@ export default function Home() {
 
           <div className="hero-actions">
             <Link href="/test-gasless" className="btn-black">
-              START FREE
+              Start For Free
             </Link>
           </div>
         </div>
