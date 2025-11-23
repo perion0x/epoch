@@ -76,11 +76,21 @@ function TestIssueContent() {
     setFetchingContent(true);
     try {
       const response = await fetch(`https://aggregator.walrus-testnet.walrus.space/v1/${blobId}`);
+      
+      if (!response.ok) {
+        if (response.status === 404) {
+          setFetchedContent('<div style="color: #fca5a5; padding: 20px; text-align: center;"><strong>Content Not Found</strong><br/><br/>The blob may still be propagating through the Walrus network. This can take a few minutes.<br/><br/>Try refreshing in a moment, or check Walruscan for blob status.</div>');
+        } else {
+          setFetchedContent(`<div style="color: #fca5a5; padding: 20px; text-align: center;"><strong>Error ${response.status}</strong><br/><br/>Failed to fetch content from Walrus.</div>`);
+        }
+        return;
+      }
+      
       const content = await response.text();
       setFetchedContent(content);
     } catch (err) {
       console.error('Failed to fetch content from Walrus:', err);
-      setFetchedContent('Failed to fetch content');
+      setFetchedContent('<div style="color: #fca5a5; padding: 20px; text-align: center;"><strong>Network Error</strong><br/><br/>Could not connect to Walrus. Please check your internet connection.</div>');
     } finally {
       setFetchingContent(false);
     }
@@ -261,23 +271,22 @@ function TestIssueContent() {
               >
                 View on SuiVision
               </a>
-              <a
-                href={`https://aggregator.walrus-testnet.walrus.space/v1/${result.blobId}`}
-                target="_blank"
-                rel="noopener noreferrer"
+              <button
+                onClick={() => fetchContentFromWalrus(result.blobId)}
+                disabled={fetchingContent}
                 style={{
-                  display: 'inline-block',
                   padding: '10px 18px',
-                  backgroundColor: '#8b5cf6',
+                  background: fetchingContent ? '#64748b' : '#8b5cf6',
                   color: 'white',
-                  textDecoration: 'none',
+                  border: 'none',
                   borderRadius: '6px',
                   fontSize: '14px',
                   fontWeight: '600',
+                  cursor: fetchingContent ? 'not-allowed' : 'pointer',
                 }}
               >
-                View Content on Walrus
-              </a>
+                {fetchingContent ? 'Loading...' : 'View Content on Walrus'}
+              </button>
               <a
                 href={`https://walruscan.com/testnet/blob/${result.blobId}`}
                 target="_blank"
@@ -300,27 +309,6 @@ function TestIssueContent() {
           <p style={{ fontSize: '14px', marginTop: '15px', color: '#86efac' }}>
             Content stored on Walrus, metadata on Sui - all gasless.
           </p>
-
-          {!fetchedContent && (
-            <button
-              onClick={() => fetchContentFromWalrus(result.blobId)}
-              disabled={fetchingContent}
-              style={{
-                marginTop: '15px',
-                padding: '10px 18px',
-                background: 'linear-gradient(to right, #9333ea, #06b6d4)',
-                color: 'white',
-                border: 'none',
-                borderRadius: '6px',
-                fontSize: '14px',
-                fontWeight: '600',
-                cursor: fetchingContent ? 'not-allowed' : 'pointer',
-                opacity: fetchingContent ? 0.7 : 1,
-              }}
-            >
-              {fetchingContent ? 'Loading...' : 'Preview Published Content'}
-            </button>
-          )}
 
           {fetchedContent && (
             <div
