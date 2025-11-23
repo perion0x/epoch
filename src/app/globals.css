@@ -2569,6 +2569,13 @@ main {
   color: #64748b;
 }
 
+.walrus-logo {
+  height: auto;
+  max-height: 60px;
+  width: auto;
+  object-fit: contain;
+}
+
 .hero-actions {
   display: flex;
   gap: 1.5rem;

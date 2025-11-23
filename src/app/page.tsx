@@ -72,14 +72,13 @@ export default function Home() {
                 <span className="logo-separator">+</span>
 
                 {/* Walrus Logo */}
-                <svg width="120" height="63" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <circle cx="100" cy="100" r="80" fill="#94a3b8" opacity="0.2"/>
-                  <path d="M100 40C72.4 40 50 62.4 50 90C50 105.2 56.8 118.8 67.6 128L100 160L132.4 128C143.2 118.8 150 105.2 150 90C150 62.4 127.6 40 100 40Z" fill="#94a3b8"/>
-                  <circle cx="85" cy="85" r="8" fill="#0f172a"/>
-                  <circle cx="115" cy="85" r="8" fill="#0f172a"/>
-                  <path d="M75 110C75 110 85 120 100 120C115 120 125 110 125 110" stroke="#0f172a" strokeWidth="4" strokeLinecap="round"/>
-                  <text x="100" y="180" textAnchor="middle" fill="#94a3b8" fontSize="24" fontWeight="600" fontFamily="system-ui">Walrus</text>
-                </svg>
+                <img 
+                  src="/images/walrus-logo.png" 
+                  alt="Walrus" 
+                  className="walrus-logo"
+                  width="140"
+                  height="auto"
+                />
               </div>
             </div>
           </div>
