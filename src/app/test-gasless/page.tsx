@@ -115,15 +115,7 @@ export default function TestGaslessPage() {
               lineHeight: '1.1',
               letterSpacing: '-0.02em'
             }}>
-              Launch Your Newsletter,{' '}
-              <span style={{ 
-                background: 'linear-gradient(135deg, #8b5cf6 0%, #06b6d4 100%)',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                backgroundClip: 'text'
-              }}>
-                Gas-Free
-              </span>
+              Launch Your Newsletter
             </h1>
             
             <p style={{ 

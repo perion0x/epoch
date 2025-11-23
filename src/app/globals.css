@@ -3445,9 +3445,5 @@ main {
 }
 
 /* Two-Column Layout Responsive - Page-Specific for /test-gasless */
-/* This media query only affects the "Launch your newsletter, Gas-Free" page */
-@media (max-width: 992px) {
-  .two-column-layout {
-    grid-template-columns: 1fr !important;
-  }
-}
+/* Keep side-by-side layout at all screen sizes */
+/* Removed stacking behavior - columns stay left and right */
