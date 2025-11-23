@@ -2496,14 +2496,15 @@ main {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-}
-
-.wave-text {
   display: inline-block;
 }
 
 .wave-text span {
   display: inline-block;
+  background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
   animation: wave 2s ease-in-out infinite;
 }
 
