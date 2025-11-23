@@ -38,11 +38,22 @@ export default function TestGaslessPage() {
   const [result, setResult] = useState<any>(null);
   const [error, setError] = useState<string | null>(null);
 
-  // Apply scale immediately on mount to prevent flash
+  // Apply theme and scale immediately on mount to prevent flash
   useEffect(() => {
-    document.body.style.overflow = 'hidden';
+    // Apply background to body and html
+    document.body.style.background = 'linear-gradient(135deg, #020617 0%, #0f172a 100%)';
+    document.body.style.minHeight = '100vh';
+    document.body.style.margin = '0';
+    document.documentElement.style.background = 'linear-gradient(135deg, #020617 0%, #0f172a 100%)';
+    document.documentElement.style.minHeight = '100vh';
+    
     return () => {
-      document.body.style.overflow = '';
+      // Clean up on unmount
+      document.body.style.background = '';
+      document.body.style.minHeight = '';
+      document.body.style.margin = '';
+      document.documentElement.style.background = '';
+      document.documentElement.style.minHeight = '';
     };
   }, []);
 
@@ -77,11 +88,18 @@ export default function TestGaslessPage() {
     <>
       {/* Inline critical CSS to prevent flash */}
       <style dangerouslySetInnerHTML={{__html: `
+        body, html {
+          background: linear-gradient(135deg, #020617 0%, #0f172a 100%) !important;
+          min-height: 100vh !important;
+          margin: 0 !important;
+          padding: 0 !important;
+        }
         .gasless-page-container {
           transform: scale(0.9) !important;
           transform-origin: top center !important;
           width: 111.11% !important;
           margin-left: -5.56% !important;
+          background: linear-gradient(135deg, #020617 0%, #0f172a 100%) !important;
         }
       `}} />
       <div className="gasless-page-container" style={{ minHeight: '100vh', backgroundColor: '#020617', fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif' }}>
