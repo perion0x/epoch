@@ -3462,3 +3462,23 @@ html:has(.gasless-page-container) {
   margin: 0 !important;
   padding: 0 !important;
 }
+
+/* Disable ALL transitions and animations to prevent resize flash */
+.gasless-page-container,
+.gasless-page-container * {
+  transition: none !important;
+  animation: none !important;
+}
+
+/* Force font rendering to prevent layout shift from font loading */
+.gasless-page-container {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif !important;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Prevent any layout shifts during hydration */
+.gasless-page-container * {
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+}
