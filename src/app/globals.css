@@ -3448,10 +3448,13 @@ main {
 /* Keep side-by-side layout at all screen sizes */
 /* Removed stacking behavior - columns stay left and right */
 
-/* Gasless Page Container - No scaling needed */
+/* Gasless Page Container - Force immediate rendering with no changes */
 .gasless-page-container {
-  min-height: 100vh;
-  background: linear-gradient(135deg, #020617 0%, #0f172a 100%);
+  min-height: 100vh !important;
+  background: linear-gradient(135deg, #020617 0%, #0f172a 100%) !important;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif !important;
+  -webkit-font-smoothing: antialiased !important;
+  -moz-osx-font-smoothing: grayscale !important;
 }
 
 /* Apply background to body when gasless page is loaded */
@@ -3461,24 +3464,32 @@ html:has(.gasless-page-container) {
   min-height: 100vh !important;
   margin: 0 !important;
   padding: 0 !important;
+  overflow-x: hidden !important;
 }
 
-/* Disable ALL transitions and animations to prevent resize flash */
+/* CRITICAL: Disable ALL transitions, animations, and transforms */
 .gasless-page-container,
-.gasless-page-container * {
+.gasless-page-container *,
+.gasless-page-container *::before,
+.gasless-page-container *::after {
   transition: none !important;
   animation: none !important;
+  transform: none !important;
+  font-synthesis: none !important;
+  text-rendering: optimizeLegibility !important;
 }
 
-/* Force font rendering to prevent layout shift from font loading */
-.gasless-page-container {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif !important;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-/* Prevent any layout shifts during hydration */
+/* Prevent font loading layout shift */
 .gasless-page-container * {
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
+  font-family: inherit !important;
+}
+
+/* Force stable rendering - prevent any size changes */
+.gasless-page-container h1,
+.gasless-page-container input,
+.gasless-page-container textarea,
+.gasless-page-container button {
+  font-size: inherit !important;
+  line-height: inherit !important;
+  box-sizing: border-box !important;
 }

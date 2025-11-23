@@ -262,11 +262,9 @@ export default function TestGaslessPage() {
                   }}
                   onFocus={(e) => {
                     e.target.style.borderColor = '#8b5cf6';
-                    e.target.style.boxShadow = '0 0 0 3px rgba(139, 92, 246, 0.1)';
                   }}
                   onBlur={(e) => {
                     e.target.style.borderColor = '#1e293b';
-                    e.target.style.boxShadow = 'none';
                   }}
                 />
               </div>
@@ -286,11 +284,9 @@ export default function TestGaslessPage() {
                 }}
                 onFocus={(e) => {
                   e.currentTarget.style.borderColor = '#8b5cf6';
-                  e.currentTarget.style.boxShadow = '0 0 0 3px rgba(139, 92, 246, 0.1)';
                 }}
                 onBlur={(e) => {
                   e.currentTarget.style.borderColor = '#1e293b';
-                  e.currentTarget.style.boxShadow = 'none';
                 }}
                 >
                   <span style={{ 
@@ -353,20 +349,14 @@ export default function TestGaslessPage() {
                   border: 'none',
                   borderRadius: '8px',
                   cursor: loading ? 'not-allowed' : 'pointer',
-                  transition: 'all 0.2s',
-                  boxShadow: loading ? 'none' : '0 4px 6px -1px rgba(139, 92, 246, 0.3)',
                 }}
                 onMouseEnter={(e) => {
                   if (!loading) {
                     e.currentTarget.style.background = '#7c3aed';
-                    e.currentTarget.style.transform = 'translateY(-1px)';
-                    e.currentTarget.style.boxShadow = '0 6px 8px -1px rgba(139, 92, 246, 0.4)';
                   }
                 }}
                 onMouseLeave={(e) => {
                   e.currentTarget.style.background = loading ? '#64748b' : '#8b5cf6';
-                  e.currentTarget.style.transform = 'translateY(0)';
-                  e.currentTarget.style.boxShadow = loading ? 'none' : '0 4px 6px -1px rgba(139, 92, 246, 0.3)';
                 }}
               >
                 {loading ? 'Creating...' : 'Launch Newsletter for Free'}
@@ -467,10 +457,7 @@ export default function TestGaslessPage() {
                     fontSize: '16px',
                     fontWeight: '600',
                     textAlign: 'center',
-                    transition: 'transform 0.2s',
                   }}
-                  onMouseEnter={(e) => e.currentTarget.style.transform = 'translateY(-2px)'}
-                  onMouseLeave={(e) => e.currentTarget.style.transform = 'translateY(0)'}
                 >
                   Publish First Issue →
                 </a>
