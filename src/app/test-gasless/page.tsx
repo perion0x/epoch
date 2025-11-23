@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { createGaslessNewsletter } from '@/services/gasless-newsletter';
 import dynamic from 'next/dynamic';
 
@@ -38,24 +38,7 @@ export default function TestGaslessPage() {
   const [result, setResult] = useState<any>(null);
   const [error, setError] = useState<string | null>(null);
 
-  // Apply theme and scale immediately on mount to prevent flash
-  useEffect(() => {
-    // Apply background to body and html
-    document.body.style.background = 'linear-gradient(135deg, #020617 0%, #0f172a 100%)';
-    document.body.style.minHeight = '100vh';
-    document.body.style.margin = '0';
-    document.documentElement.style.background = 'linear-gradient(135deg, #020617 0%, #0f172a 100%)';
-    document.documentElement.style.minHeight = '100vh';
-    
-    return () => {
-      // Clean up on unmount
-      document.body.style.background = '';
-      document.body.style.minHeight = '';
-      document.body.style.margin = '';
-      document.documentElement.style.background = '';
-      document.documentElement.style.minHeight = '';
-    };
-  }, []);
+
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
