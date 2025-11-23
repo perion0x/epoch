@@ -44,7 +44,7 @@ export default function Home() {
             </p>
 
             <div className="hero-actions">
-              <Link href="/test-gasless" className="btn-gradient">
+              <Link href="/test-gasless" className="btn-primary">
                 Start For Free
               </Link>
             </div>
@@ -104,7 +104,7 @@ export default function Home() {
                       <div className="notification-icon">🎉</div>
                       <div className="notification-content">
                         <div className="notification-title">New Subscriber!</div>
-                        <div className="notification-text">sarah.eth just subscribed to Crypto Weekly</div>
+                        <div className="notification-text">sarah.sui just subscribed to Crypto Weekly</div>
                       </div>
                       <div className="notification-time">2s ago</div>
                     </div>
