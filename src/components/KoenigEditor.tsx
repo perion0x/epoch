@@ -62,10 +62,13 @@ export default function KoenigEditorWrapper({
     );
   }
 
+  // Pass undefined if initialContent is empty, otherwise pass the content
+  const initialState = initialContent && initialContent.trim() !== '' ? initialContent : undefined;
+
   return (
     <div className={className}>
       <KoenigComposer
-        initialEditorState={editorContent}
+        initialEditorState={initialState}
         onError={(error: Error) => {
           console.error('Koenig editor error:', error);
         }}
