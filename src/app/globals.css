@@ -2768,6 +2768,12 @@ main {
   font-size: 0.875rem;
 }
 
+.footer-left {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
 .footer-bottom a {
   color: #9ca3af;
   text-decoration: none;
@@ -2777,33 +2783,16 @@ main {
   color: white;
 }
 
-/* Tech Stack Badge */
-.tech-stack-badge {
-  max-width: 1200px;
-  margin: 2rem auto 0;
-  padding-top: 1.5rem;
-  border-top: 1px solid #374151;
-}
-
-.tech-stack-content {
+.footer-tech-stack {
   display: flex;
   align-items: center;
-  justify-content: center;
   gap: 0.75rem;
   font-size: 0.75rem;
   color: #6b7280;
 }
 
-.tech-logo {
-  height: 1.25rem;
-  width: auto;
-  filter: grayscale(100%);
-  opacity: 0.6;
-}
-
-.tech-text {
+.tech-item {
   color: #6b7280;
-  font-weight: 500;
 }
 
 .tech-separator {
@@ -2832,8 +2821,19 @@ main {
     flex-direction: column;
   }
   
-  .tech-stack-content {
+  .footer-bottom {
+    flex-direction: column;
+    gap: 1rem;
+    text-align: center;
+  }
+  
+  .footer-left {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .footer-tech-stack {
     flex-wrap: wrap;
-    font-size: 0.7rem;
+    justify-content: center;
   }
 }

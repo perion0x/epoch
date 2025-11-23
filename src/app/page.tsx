@@ -127,23 +127,16 @@ export default function Home() {
           </div>
         </div>
         <div className="footer-bottom">
-          <p>© 2024 Epoch Foundation</p>
-          <Link href="/terms">Terms</Link>
-        </div>
-        
-        {/* Tech Stack Badge - Subtle and Bottom */}
-        <div className="tech-stack-badge">
-          <div className="tech-stack-content">
-            <img 
-              src="https://sui.io/favicon.ico" 
-              alt="Sui" 
-              className="tech-logo"
-            />
-            <span className="tech-text">Powered by Sui</span>
+          <div className="footer-left">
+            <p>© 2024 Epoch Foundation</p>
+            <Link href="/terms">Terms</Link>
+          </div>
+          <div className="footer-tech-stack">
+            <span className="tech-item">Powered by Sui</span>
             <span className="tech-separator">•</span>
-            <span className="tech-text">Secured by Seal</span>
+            <span className="tech-item">Secured by Seal</span>
             <span className="tech-separator">•</span>
-            <span className="tech-text">Stored on Walrus</span>
+            <span className="tech-item">Stored on Walrus</span>
           </div>
         </div>
       </footer>
