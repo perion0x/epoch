@@ -2557,7 +2557,7 @@ main {
   margin-top: 1.5rem;
 }
 
-.btn-primary, .btn-black {
+.btn-primary, .btn-black, .btn-ghost {
   padding: 1rem 2.3rem;
   border-radius: 0.5rem;
   font-weight: 600;
@@ -2586,6 +2586,19 @@ main {
 .btn-black:hover {
   background: #f1f5f9;
   transform: translateY(-2px);
+}
+
+.btn-ghost {
+  background: transparent;
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 0.75rem 1.5rem;
+  min-width: auto;
+}
+
+.btn-ghost:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.3);
 }
 
 .btn-link {

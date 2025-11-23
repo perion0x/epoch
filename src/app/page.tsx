@@ -12,7 +12,7 @@ export default function Home() {
             <div className="logo">Epoch</div>
             <div className="nav-links">
               <Link href="/newsletters">Browse</Link>
-              <Link href="/test-gasless" className="btn-primary">Start Free</Link>
+              <Link href="/test-gasless" className="btn-ghost">Launch App</Link>
             </div>
           </div>
         </nav>
