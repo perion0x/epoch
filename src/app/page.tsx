@@ -17,34 +17,40 @@ export default function Home() {
           </div>
         </nav>
 
+        {/* Background Glow Effect */}
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[400px] bg-blue-500/10 rounded-full blur-[100px] pointer-events-none" />
+
         <div className="hero-content">
-          <div className="badge">
-            <span className="status-dot"></span>
-            Protocol V1 Live
-          </div>
-          
-          <h1 className="hero-title">
-            Publish Without{' '}
-            <span className="gradient-text wave-text">
-              {Array.from('Permission').map((char, i) => (
-                <span key={i} style={{ animationDelay: `${i * 0.05}s` }}>
-                  {char}
-                </span>
-              ))}
-            </span>
-          </h1>
-          
-          <p className="hero-description">
-            Become a sovereign creator. The first newsletter platform built on Sui where you truly own your work. Uncensorable, immutable, and impossible to deplatform.
-          </p>
+          {/* Your Existing Text Content */}
+          <div className="relative z-10 text-center">
+            <div className="badge">
+              <span className="status-dot"></span>
+              Protocol V1 Live
+            </div>
+            
+            <h1 className="hero-title">
+              Publish Without{' '}
+              <span className="gradient-text wave-text">
+                {Array.from('Permission').map((char, i) => (
+                  <span key={i} style={{ animationDelay: `${i * 0.05}s` }}>
+                    {char}
+                  </span>
+                ))}
+              </span>
+            </h1>
+            
+            <p className="hero-description">
+              Become a sovereign creator. The first newsletter platform built on Sui where you truly own your work. Uncensorable, immutable, and impossible to deplatform.
+            </p>
 
-          <div className="hero-actions">
-            <Link href="/test-gasless" className="btn-black">
-              Start For Free
-            </Link>
+            <div className="hero-actions">
+              <Link href="/test-gasless" className="btn-black">
+                Start For Free
+              </Link>
+            </div>
           </div>
 
-          {/* Dashboard Preview */}
+          {/* Dashboard Preview - Visual Hook */}
           <div className="dashboard-preview">
             <div className="browser-mockup">
               <div className="browser-header">
