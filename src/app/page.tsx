@@ -73,7 +73,7 @@ export default function Home() {
 
                 {/* Walrus Logo */}
                 <img 
-                  src="/walrus-logo.png" 
+                  src="/walruswhite.png" 
                   alt="Walrus" 
                   className="walrus-logo"
                   width="140"
