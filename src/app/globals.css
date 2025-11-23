@@ -2555,8 +2555,8 @@ main {
 
 .logos-container svg,
 .logos-container img {
-  width: 140px;
-  height: auto;
+  height: 50px;
+  width: auto;
   opacity: 0.9;
   transition: opacity 0.2s;
 }
@@ -2566,9 +2566,9 @@ main {
   opacity: 1;
 }
 
-.walrus-logo {
-  width: 140px;
-  height: auto;
+.tech-logo {
+  height: 50px;
+  width: auto;
   object-fit: contain;
 }
 
