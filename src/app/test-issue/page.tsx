@@ -47,15 +47,15 @@ function TestIssueContent() {
   };
 
   return (
-    <div style={{ maxWidth: '800px', margin: '50px auto', padding: '20px' }}>
+    <div style={{ maxWidth: '800px', margin: '50px auto', padding: '20px', minHeight: '100vh', backgroundColor: '#020617' }}>
       <a
         href="/"
         style={{
           display: 'inline-block',
           marginBottom: '20px',
           padding: '8px 16px',
-          backgroundColor: '#f0f0f0',
-          color: '#333',
+          backgroundColor: '#1e293b',
+          color: '#e2e8f0',
           textDecoration: 'none',
           borderRadius: '4px',
           fontSize: '14px',
@@ -65,14 +65,14 @@ function TestIssueContent() {
         ← Back to Home
       </a>
       
-      <h1>📝 Test Gasless Issue Publishing</h1>
-      <p style={{ color: '#666', marginBottom: '30px' }}>
+      <h1 style={{ color: '#ffffff' }}>📝 Test Gasless Issue Publishing</h1>
+      <p style={{ color: '#94a3b8', marginBottom: '30px' }}>
         Publish newsletter issues to Walrus + Sui without a wallet!
       </p>
 
       <form onSubmit={handleSubmit} style={{ marginBottom: '30px' }}>
         <div style={{ marginBottom: '20px' }}>
-          <label style={{ display: 'block', marginBottom: '8px', fontWeight: 'bold' }}>
+          <label style={{ display: 'block', marginBottom: '8px', fontWeight: 'bold', color: '#cbd5e1' }}>
             Newsletter ID {newsletterId && '✅'}
           </label>
           <input
@@ -86,16 +86,17 @@ function TestIssueContent() {
               width: '100%',
               padding: '10px',
               fontSize: '14px',
-              border: '1px solid #ddd',
+              border: '1px solid #475569',
               borderRadius: '4px',
               fontFamily: 'monospace',
-              backgroundColor: newsletterId ? '#f0f0f0' : 'white',
+              backgroundColor: newsletterId ? '#334155' : '#1e293b',
+              color: '#ffffff',
             }}
           />
         </div>
 
         <div style={{ marginBottom: '20px' }}>
-          <label style={{ display: 'block', marginBottom: '8px', fontWeight: 'bold' }}>
+          <label style={{ display: 'block', marginBottom: '8px', fontWeight: 'bold', color: '#cbd5e1' }}>
             Issue Title
           </label>
           <input
@@ -108,14 +109,16 @@ function TestIssueContent() {
               width: '100%',
               padding: '10px',
               fontSize: '16px',
-              border: '1px solid #ddd',
+              border: '1px solid #475569',
               borderRadius: '4px',
+              backgroundColor: '#1e293b',
+              color: '#ffffff',
             }}
           />
         </div>
 
         <div style={{ marginBottom: '20px' }}>
-          <label style={{ display: 'block', marginBottom: '8px', fontWeight: 'bold' }}>
+          <label style={{ display: 'block', marginBottom: '8px', fontWeight: 'bold', color: '#cbd5e1' }}>
             Public Content (Free)
           </label>
           <textarea
@@ -128,15 +131,17 @@ function TestIssueContent() {
               width: '100%',
               padding: '10px',
               fontSize: '14px',
-              border: '1px solid #ddd',
+              border: '1px solid #475569',
               borderRadius: '4px',
               fontFamily: 'inherit',
+              backgroundColor: '#1e293b',
+              color: '#ffffff',
             }}
           />
         </div>
 
         <div style={{ marginBottom: '20px' }}>
-          <label style={{ display: 'block', marginBottom: '8px', fontWeight: 'bold' }}>
+          <label style={{ display: 'block', marginBottom: '8px', fontWeight: 'bold', color: '#cbd5e1' }}>
             Premium Content (Optional - NFT holders only)
           </label>
           <textarea
@@ -148,9 +153,11 @@ function TestIssueContent() {
               width: '100%',
               padding: '10px',
               fontSize: '14px',
-              border: '1px solid #ddd',
+              border: '1px solid #475569',
               borderRadius: '4px',
               fontFamily: 'inherit',
+              backgroundColor: '#1e293b',
+              color: '#ffffff',
             }}
           />
         </div>
@@ -164,7 +171,7 @@ function TestIssueContent() {
             fontSize: '16px',
             fontWeight: 'bold',
             color: 'white',
-            backgroundColor: loading ? '#999' : '#28a745',
+            background: loading ? '#64748b' : 'linear-gradient(to right, #9333ea, #06b6d4)',
             border: 'none',
             borderRadius: '4px',
             cursor: loading ? 'not-allowed' : 'pointer',
@@ -178,10 +185,10 @@ function TestIssueContent() {
         <div
           style={{
             padding: '15px',
-            backgroundColor: '#fee',
-            border: '1px solid #fcc',
+            backgroundColor: 'rgba(220, 38, 38, 0.1)',
+            border: '1px solid #991b1b',
             borderRadius: '4px',
-            color: '#c00',
+            color: '#fca5a5',
             marginBottom: '20px',
           }}
         >
@@ -193,25 +200,25 @@ function TestIssueContent() {
         <div
           style={{
             padding: '20px',
-            backgroundColor: '#efe',
-            border: '1px solid #cfc',
+            backgroundColor: 'rgba(34, 197, 94, 0.1)',
+            border: '1px solid #166534',
             borderRadius: '4px',
-            color: '#060',
+            color: '#86efac',
           }}
         >
-          <h3 style={{ marginTop: 0 }}>🎉 Issue published on Sui + Walrus!</h3>
-          <div style={{ fontSize: '14px', marginBottom: '15px' }}>
+          <h3 style={{ marginTop: 0, color: '#86efac' }}>🎉 Issue published on Sui + Walrus!</h3>
+          <div style={{ fontSize: '14px', marginBottom: '15px', color: '#86efac' }}>
             <p>
               <strong>Transaction Hash:</strong>
               <br />
-              <code style={{ fontSize: '12px', wordBreak: 'break-all' }}>
+              <code style={{ fontSize: '12px', wordBreak: 'break-all', color: '#86efac' }}>
                 {result.transactionDigest}
               </code>
             </p>
             <p>
               <strong>Walrus Blob ID:</strong>
               <br />
-              <code style={{ fontSize: '12px', wordBreak: 'break-all' }}>
+              <code style={{ fontSize: '12px', wordBreak: 'break-all', color: '#86efac' }}>
                 {result.blobId}
               </code>
             </p>
@@ -234,7 +241,7 @@ function TestIssueContent() {
               🔍 View on SuiVision
             </a>
           </div>
-          <p style={{ fontSize: '14px', marginTop: '15px', color: '#666' }}>
+          <p style={{ fontSize: '14px', marginTop: '15px', color: '#86efac' }}>
             💡 Content stored on Walrus, metadata on Sui - all gasless!
           </p>
         </div>

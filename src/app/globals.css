@@ -2547,29 +2547,15 @@ main {
   text-transform: uppercase;
 }
 
-.logos-container {
-  display: flex;
-  align-items: center;
-  gap: 2rem;
-}
-
-.logos-container svg,
-.logos-container img {
+.sui-logo-centered {
   height: 50px;
   width: auto;
   opacity: 0.9;
   transition: opacity 0.2s;
 }
 
-.logos-container svg:hover,
-.logos-container img:hover {
+.sui-logo-centered:hover {
   opacity: 1;
-}
-
-.tech-logo {
-  height: 50px;
-  width: auto;
-  object-fit: contain;
 }
 
 .hero-actions {
