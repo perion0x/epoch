@@ -100,6 +100,16 @@ export default function TestGaslessPage() {
           width: 111.11% !important;
           margin-left: -5.56% !important;
           background: linear-gradient(135deg, #020617 0%, #0f172a 100%) !important;
+          opacity: 0 !important;
+          animation: fadeInScale 0.3s ease-out forwards !important;
+        }
+        @keyframes fadeInScale {
+          from {
+            opacity: 0;
+          }
+          to {
+            opacity: 1;
+          }
         }
       `}} />
       <div className="gasless-page-container" style={{ minHeight: '100vh', backgroundColor: '#020617', fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif' }}>
