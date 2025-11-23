@@ -83,26 +83,69 @@ export default function Home() {
               <div className="browser-content">
                 <div className="dashboard-mock">
                   <div className="dashboard-sidebar">
-                    <div className="sidebar-item active">📝 My Newsletters</div>
-                    <div className="sidebar-item">📊 Analytics</div>
+                    <div className="sidebar-section-title">Content</div>
+                    <div className="sidebar-item active">📊 Dashboard</div>
+                    <div className="sidebar-item">📝 Posts</div>
+                    <div className="sidebar-item">👥 Members</div>
+                    <div className="sidebar-item">💰 Offers</div>
+                    <div className="sidebar-section-title">Protocol</div>
+                    <div className="sidebar-item">⛓️ Sui Explorer</div>
                     <div className="sidebar-item">💎 NFT Access</div>
                     <div className="sidebar-item">⚙️ Settings</div>
                   </div>
                   <div className="dashboard-main">
                     <div className="dashboard-header">
-                      <h3>Your Newsletters</h3>
-                      <button className="create-btn">+ New Newsletter</button>
+                      <h3>Dashboard</h3>
+                      <button className="create-btn">+ New Post</button>
                     </div>
-                    <div className="newsletter-cards">
-                      <div className="mock-card">
-                        <div className="card-badge">🟢 Published</div>
-                        <h4>Crypto Weekly</h4>
-                        <p>1,234 subscribers • 12 issues</p>
+                    
+                    {/* Stats Grid */}
+                    <div className="stats-grid">
+                      <div className="stat-card">
+                        <div className="stat-label">Total Members</div>
+                        <div className="stat-value">13,041</div>
                       </div>
-                      <div className="mock-card">
-                        <div className="card-badge">✏️ Draft</div>
-                        <h4>DeFi Insights</h4>
-                        <p>0 subscribers • 0 issues</p>
+                      <div className="stat-card">
+                        <div className="stat-label">Paid Members</div>
+                        <div className="stat-value">3,207</div>
+                        <div className="stat-change positive">↑ 1%</div>
+                      </div>
+                      <div className="stat-card">
+                        <div className="stat-label">Free Members</div>
+                        <div className="stat-value">9,834</div>
+                      </div>
+                      <div className="stat-card">
+                        <div className="stat-label">MRR (SUI)</div>
+                        <div className="stat-value">21,819</div>
+                        <div className="stat-change positive">↑ 3.8%</div>
+                      </div>
+                    </div>
+
+                    {/* Chart */}
+                    <div className="chart-card">
+                      <div className="chart-header">
+                        <span>Member Growth</span>
+                        <span className="chart-period">6 Months</span>
+                      </div>
+                      <div className="chart-placeholder">
+                        <svg viewBox="0 0 400 100" className="chart-svg">
+                          <polyline
+                            fill="none"
+                            stroke="#8b5cf6"
+                            strokeWidth="2"
+                            points="0,80 50,75 100,70 150,65 200,55 250,45 300,35 350,25 400,20"
+                          />
+                          <polyline
+                            fill="url(#gradient)"
+                            points="0,80 50,75 100,70 150,65 200,55 250,45 300,35 350,25 400,20 400,100 0,100"
+                          />
+                          <defs>
+                            <linearGradient id="gradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                              <stop offset="0%" stopColor="#8b5cf6" stopOpacity="0.3"/>
+                              <stop offset="100%" stopColor="#8b5cf6" stopOpacity="0"/>
+                            </linearGradient>
+                          </defs>
+                        </svg>
                       </div>
                     </div>
                   </div>
