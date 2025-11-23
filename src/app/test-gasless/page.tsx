@@ -68,20 +68,7 @@ export default function TestGaslessPage() {
   };
 
   return (
-    <>
-      {/* Inline critical CSS for theme */}
-      <style dangerouslySetInnerHTML={{__html: `
-        body, html {
-          background: linear-gradient(135deg, #020617 0%, #0f172a 100%) !important;
-          min-height: 100vh !important;
-          margin: 0 !important;
-          padding: 0 !important;
-        }
-        .gasless-page-container {
-          background: linear-gradient(135deg, #020617 0%, #0f172a 100%) !important;
-        }
-      `}} />
-      <div className="gasless-page-container" style={{ minHeight: '100vh', backgroundColor: '#020617', fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif' }}>
+    <div className="gasless-page-container" style={{ minHeight: '100vh', backgroundColor: '#020617', fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif' }}>
         {/* Navigation */}
       <div style={{ padding: '20px 40px', borderBottom: '1px solid #1e293b', background: 'linear-gradient(135deg, #020617 0%, #0f172a 100%)' }}>
         <a
@@ -532,6 +519,5 @@ export default function TestGaslessPage() {
         </div>
       </div>
     </div>
-    </>
   );
 }

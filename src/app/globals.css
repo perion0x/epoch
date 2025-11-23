@@ -3451,4 +3451,14 @@ main {
 /* Gasless Page Container - No scaling needed */
 .gasless-page-container {
   min-height: 100vh;
+  background: linear-gradient(135deg, #020617 0%, #0f172a 100%);
+}
+
+/* Apply background to body when gasless page is loaded */
+body:has(.gasless-page-container),
+html:has(.gasless-page-container) {
+  background: linear-gradient(135deg, #020617 0%, #0f172a 100%) !important;
+  min-height: 100vh !important;
+  margin: 0 !important;
+  padding: 0 !important;
 }
