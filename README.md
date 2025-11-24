@@ -7,15 +7,15 @@ A gasless, censorship-resistant newsletter platform where creators own their con
 *   **Gasless Experience:** Creators can launch newsletters and publish issues without needing a wallet or paying gas fees (sponsored via Gas Station).
 *   **Decentralized Content:** All newsletter content is stored as **Walrus Blobs**, ensuring permanent and immutable storage separate from the frontend.
 *   **On-Chain Ownership:** Newsletter identity and issue metadata are secured on the **Sui Blockchain**.
-*   **Seal Encryption (Demo):** "Premium Content" feature powered by **Seal** to encrypt data on-chain, unlocking it only for authorized subscribers (NFT/Subscription holders).
 *   **Instant Preview:** Robust publishing flow that provides immediate content feedback while decentralized propagation happens in the background.
+*   **Seal Encryption (Architecture):** "Premium Content" encryption logic is integrated in the codebase (`services/seal.ts`), designed to power subscription-gated newsletters.
 
 ## Technology Stack
 
 *   **Frontend & API:** Next.js 14 (Hosted on Vercel)
 *   **Blockchain:** Sui (Move Smart Contracts)
 *   **Storage:** Walrus (Raw Blobs for Issue Content)
-*   **Access Control:** Sui Seal (Encryption & Policy)
+*   **Access Control:** Sui Seal (Encryption & Policy - Codebase Integrated)
 
 ## Project Structure
 
@@ -67,10 +67,17 @@ This platform uses **Walrus Blobs** to store newsletter content.
 
 ## Seal Integration
 
-We implement **Seal** for encrypted premium content:
+We have implemented the **Seal SDK** for encrypted premium content.
+*(Note: Currently disabled in the live demo for stability, but fully implemented in the codebase.)*
+
 1.  **Encrypt:** Content is encrypted client-side/server-side using Seal's ephemeral key.
 2.  **Policy:** An Access Policy on Sui defines who can decrypt (e.g., "Must own Subscription Object").
 3.  **Decrypt:** Eligible users derive the decryption key via the Seal network to read the content.
+
+## Future Roadmap
+
+*   **Monetization:** Enable readers to subscribe to creators using **SUI** or **USDC** via smart contracts.
+*   **Live Encryption:** Enable the Seal encryption toggle in the production UI.
 
 ## License
 
