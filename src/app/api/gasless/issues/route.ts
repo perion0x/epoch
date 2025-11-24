@@ -9,7 +9,9 @@ import { Transaction } from '@mysten/sui/transactions';
 import { GasStationService, TransactionType } from '@/services/gas-station';
 import { KeypairManager } from '@/services/keypair-manager';
 import { WalrusClient } from '@/services/walrus';
+// import { SealClient } from '@/services/seal'; // Seal Disabled
 import { config } from '@/config/environment';
+import { serializeContent, calculateBoundaries, ContentSection } from '@/services/content';
 
 /**
  * POST /api/gasless/issues
@@ -57,31 +59,76 @@ export async function POST(request: NextRequest) {
       config.walrus.aggregatorUrl,
       config.walrus.publisherUrl
     );
+    // const sealClient = new SealClient(config.seal.keyServerUrl); // Seal Disabled
 
     // Get or create keypair for user (reuses existing if available)
     const userKeypair = await keypairManager.getOrCreateKeypair(userId);
     const userAddress = await keypairManager.getUserAddress(userId);
 
+    // Append hidden timestamp to ensure unique Blob ID (Content Deduplication Prevention)
+    const timestamp = new Date().toISOString();
+    const uniquePublicContent = `${publicContent}\n<!-- Published at: ${timestamp} -->`;
+
+    // Prepare Content Sections
+    const sections: ContentSection[] = [
+      { type: 'public', content: uniquePublicContent, format: 'html' }
+    ];
+
+    // Check for premium content but treat it as PUBLIC (Seal Disabled)
+    const rawHasPremium = !!premiumContent && premiumContent.length > 0;
+
+    if (rawHasPremium) {
+      console.log('🔓 Seal Disabled: Appending premium content as public text...');
+      
+      // Append as a separate public section so it's stored but visible
+      sections.push({
+        type: 'public', // Force Public
+        content: `<div class="premium-content-unlocked" style="margin-top: 30px; padding-top: 30px; border-top: 1px dashed #334155;"><h3>Premium Content (Public Preview)</h3>${premiumContent}</div>`,
+        format: 'html'
+      });
+    }
+
     // Upload content to Walrus
     console.log('📤 Uploading to Walrus...');
-    const fullContent = publicContent + (premiumContent || '');
-    const contentBytes = new TextEncoder().encode(fullContent);
-    const blobId = await walrusClient.store(contentBytes);
+    const serializedContent = serializeContent(sections);
+    const blobId = await walrusClient.store(serializedContent);
     
     console.log('✅ Walrus upload:', blobId);
 
     // Calculate content boundaries
-    const publicBoundary = publicContent.length;
-    const hasPremium = !!premiumContent;
+    const storedContent = {
+       version: 1,
+       sections: sections.map((s, index) => {
+         return {
+            type: s.type,
+            content: new TextEncoder().encode(s.content),
+            metadata: { 
+                format: s.format, 
+                byteRange: { start: 0, end: 0 } // Placeholder
+            }
+         };
+       })
+    };
     
-    // Build ranges for public and encrypted content
-    // Public range: from 0 to publicBoundary
-    const publicRangesStart = [0];
-    const publicRangesEnd = [publicBoundary];
+    // Fix offsets
+    let currentOffset = 0;
+    storedContent.sections.forEach(s => {
+       const len = s.content.length;
+       s.metadata.byteRange = { start: currentOffset, end: currentOffset + len };
+       currentOffset += len;
+    });
+
+    const boundaries = calculateBoundaries(storedContent as any);
     
-    // Encrypted range: from publicBoundary to end (if premium content exists)
-    const encryptedRangesStart = hasPremium ? [publicBoundary] : [];
-    const encryptedRangesEnd = hasPremium ? [fullContent.length] : [];
+    // Extract ranges for contract
+    const publicRangesStart = boundaries.publicRanges.map(r => r.start);
+    const publicRangesEnd = boundaries.publicRanges.map(r => r.end);
+    // Since we forced type='public', these should be empty
+    const encryptedRangesStart = boundaries.encryptedRanges.map(r => r.start);
+    const encryptedRangesEnd = boundaries.encryptedRanges.map(r => r.end);
+
+    // Force hasPremium to false on-chain because we have no encrypted content
+    const onChainHasPremium = false;
 
     // Build transaction
     const tx = new Transaction();
@@ -101,7 +148,7 @@ export async function POST(request: NextRequest) {
         tx.pure.vector('u64', publicRangesEnd),
         tx.pure.vector('u64', encryptedRangesStart),
         tx.pure.vector('u64', encryptedRangesEnd),
-        tx.pure.bool(hasPremium),
+        tx.pure.bool(onChainHasPremium),
       ],
     });
 
@@ -125,17 +172,16 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json({
       success: true,
-      issueId: sponsorshipResult.transactionDigest,
+      issueId: sponsorshipResult.transactionDigest, // Using tx digest as issue ID for now
       transactionDigest: sponsorshipResult.transactionDigest,
       blobId: blobId,
       gasUsed: sponsorshipResult.gasUsed,
-      message: '✅ Issue published on Sui + Walrus (gasless)!',
+      message: '✅ Issue published on Sui + Walrus (gasless) - Seal Encryption Disabled',
       explorerUrl: `https://testnet.suivision.xyz/txblock/${sponsorshipResult.transactionDigest}`,
     });
   } catch (error: any) {
     console.error('Failed to publish gasless issue:', error);
     
-    // Check for Move abort error (ENotCreator)
     let errorMessage = error.message || 'Unknown error';
     if (error.message?.includes('MoveAbort') && error.message?.includes('1)')) {
       errorMessage = 'You are not the creator of this newsletter. Please use the same browser/session that created the newsletter, or create a new newsletter.';

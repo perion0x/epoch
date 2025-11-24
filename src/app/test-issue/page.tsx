@@ -11,18 +11,24 @@ const KoenigEditor = dynamic(() => import('@/components/KoenigEditor').then((mod
   loading: () => (
     <div
       style={{
-        minHeight: '300px',
+        minHeight: '400px',
         padding: '20px',
-        backgroundColor: '#1e293b',
-        border: '2px solid #334155',
-        borderRadius: '6px',
-        color: '#64748b',
+        backgroundColor: 'transparent', // Canvas feel
+        border: '1px dashed #334155',
+        borderRadius: '8px',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
       }}
     >
-      Loading editor...
+      <div style={{ 
+        width: '24px', 
+        height: '24px', 
+        border: '2px solid #334155', 
+        borderTopColor: '#8b5cf6', 
+        borderRadius: '50%', 
+        animation: 'spin 1s linear infinite' 
+      }} />
     </div>
   ),
 });
@@ -38,6 +44,9 @@ function TestIssueContent() {
   const [error, setError] = useState<string | null>(null);
   const [fetchedContent, setFetchedContent] = useState<string | null>(null);
   const [fetchingContent, setFetchingContent] = useState(false);
+  
+  // Track active field for "Focus Mode"
+  const [activeField, setActiveField] = useState<'title' | 'public' | 'premium' | null>(null);
 
   useEffect(() => {
     const id = searchParams.get('newsletterId');
@@ -61,7 +70,10 @@ function TestIssueContent() {
         premiumContent: premiumContent || undefined,
       });
 
-      setResult(response);
+      const previewHtml = publicContent + 
+        (premiumContent ? `<div class="premium-content-unlocked" style="margin-top: 30px; padding-top: 30px; border-top: 1px dashed #334155;"><h3>Premium Content (Public Preview)</h3>${premiumContent}</div>` : '');
+
+      setResult({ ...response, previewContent: previewHtml });
       setTitle('');
       setPublicContent('');
       setPremiumContent('');
@@ -97,129 +109,259 @@ function TestIssueContent() {
   };
 
   return (
-    <div style={{ minHeight: '100vh', backgroundColor: '#020617' }}>
-      <div style={{ maxWidth: '800px', margin: '0 auto', padding: '50px 20px' }}>
+    <div style={{ minHeight: '100vh', background: 'linear-gradient(135deg, #020617 0%, #0f172a 100%)' }}>
+      <style jsx global>{`
+        /* Focus Mode Styles */
+        .editor-wrapper .koenig-toolbar {
+          transition: opacity 0.3s ease;
+          opacity: 0.4; /* Dimmed by default */
+          margin-bottom: 16px; /* Gap between toolbar and text */
+        }
+        
+        .editor-wrapper.active .koenig-toolbar {
+          opacity: 1; /* Full visibility when active */
+        }
+
+        /* Override default editor styles for canvas feel */
+        .koenig-editor-container {
+          border: none !important;
+          background: transparent !important;
+        }
+        
+        .koenig-editor-input {
+          padding: 0 !important;
+          min-height: 200px;
+          font-size: 1.1rem;
+          line-height: 1.7;
+          color: #e2e8f0;
+          position: relative;
+          z-index: 1;
+        }
+
+        /* Placeholder styling */
+        .koenig-editor-placeholder {
+          color: #475569 !important;
+          font-size: 1.1rem !important;
+          line-height: 1.7 !important;
+          position: absolute;
+          top: 0;
+          left: 0;
+          pointer-events: none;
+          z-index: 0;
+        }
+        
+        /* Ensure the inner container has relative positioning for absolute placeholder */
+        .koenig-editor-inner {
+          position: relative;
+        }
+      `}</style>
+
+      <div style={{ maxWidth: '800px', margin: '0 auto', padding: '40px 20px' }}>
       <a
         href="/"
         style={{
           display: 'inline-block',
-          marginBottom: '20px',
+          marginBottom: '40px',
           padding: '8px 16px',
-          backgroundColor: '#1e293b',
-          color: '#e2e8f0',
+          backgroundColor: 'rgba(30, 41, 59, 0.5)',
+          color: '#94a3b8',
           textDecoration: 'none',
-          borderRadius: '4px',
+          borderRadius: '20px',
           fontSize: '14px',
-          fontWeight: 'bold',
+          fontWeight: '500',
+          transition: 'all 0.2s ease',
+          border: '1px solid rgba(148, 163, 184, 0.1)',
+        }}
+        onMouseEnter={(e) => {
+          e.currentTarget.style.backgroundColor = 'rgba(30, 41, 59, 0.8)';
+          e.currentTarget.style.color = '#f8fafc';
+        }}
+        onMouseLeave={(e) => {
+          e.currentTarget.style.backgroundColor = 'rgba(30, 41, 59, 0.5)';
+          e.currentTarget.style.color = '#94a3b8';
         }}
       >
         ← Back to Home
       </a>
       
-      <h1 style={{ color: '#ffffff', fontSize: '36px', marginBottom: '12px', fontWeight: '700' }}>
-        Publish Your Issue
-      </h1>
-      <p style={{ color: '#94a3b8', marginBottom: '40px', fontSize: '18px', lineHeight: '1.6' }}>
-        Create and publish newsletter issues with a professional editor. Content stored on Walrus, metadata on Sui.
-      </p>
+      <div style={{ marginBottom: '60px' }}>
+        <h1 style={{ color: '#ffffff', fontSize: '42px', marginBottom: '12px', fontWeight: '800', letterSpacing: '-0.02em' }}>
+          Publish Your Issue
+        </h1>
+        <p style={{ color: 'rgba(148, 163, 184, 0.9)', fontSize: '18px', lineHeight: '1.6', maxWidth: '600px' }}>
+          Create and publish your issue with a professional editor. Your content is secured on Sui and powered by Walrus storage.
+        </p>
+      </div>
 
-      <form onSubmit={handleSubmit} style={{ marginBottom: '30px' }}>
-        <div style={{ marginBottom: '20px' }}>
-          <label style={{ display: 'block', marginBottom: '8px', fontWeight: 'bold', color: '#cbd5e1' }}>
-            Newsletter ID {newsletterId && '✅'}
-          </label>
-          <input
-            type="text"
-            value={newsletterId}
-            onChange={(e) => setNewsletterId(e.target.value)}
-            placeholder="0x..."
-            required
-            readOnly={!!newsletterId}
-            style={{
-              width: '100%',
-              padding: '10px',
-              fontSize: '14px',
-              border: '1px solid #475569',
-              borderRadius: '4px',
-              fontFamily: 'monospace',
-              backgroundColor: newsletterId ? '#334155' : '#1e293b',
-              color: '#ffffff',
-            }}
-          />
-        </div>
-
-        <div style={{ marginBottom: '20px' }}>
-          <label style={{ display: 'block', marginBottom: '8px', fontWeight: 'bold', color: '#cbd5e1' }}>
-            Issue Title
-          </label>
+      <form onSubmit={handleSubmit}>
+        
+        {/* 1. Title - The "Canvas" Header */}
+        <div style={{ marginBottom: '40px' }}>
           <input
             type="text"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
-            placeholder="Enter issue title..."
+            placeholder="Issue Title"
             required
             style={{
               width: '100%',
-              padding: '10px',
-              fontSize: '16px',
-              border: '1px solid #475569',
-              borderRadius: '4px',
-              backgroundColor: '#1e293b',
+              padding: '0',
+              fontSize: '42px',
+              fontWeight: '800',
+              border: 'none',
+              backgroundColor: 'transparent',
               color: '#ffffff',
+              outline: 'none',
+              letterSpacing: '-0.02em',
             }}
+            onFocus={() => setActiveField('title')}
+            onBlur={() => setActiveField(null)}
           />
         </div>
 
-        <div style={{ marginBottom: '24px' }}>
-          <label style={{ display: 'block', marginBottom: '12px', fontWeight: '600', color: '#e2e8f0', fontSize: '14px' }}>
+        {/* 2. Public Content - Free Section */}
+        <div 
+          className={`editor-wrapper ${activeField === 'public' ? 'active' : ''}`}
+          style={{ marginBottom: '60px' }}
+          onFocus={() => setActiveField('public')}
+          onBlur={(e) => {
+            if (!e.currentTarget.contains(e.relatedTarget)) {
+              setActiveField(null);
+            }
+          }}
+        >
+          <label style={{ display: 'block', marginBottom: '16px', fontWeight: '600', color: '#94a3b8', fontSize: '14px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
             Public Content (Free)
           </label>
           <KoenigEditor
             initialValue={publicContent}
-            onChange={(html, markdown) => setPublicContent(html)}
-            placeholder="Write your newsletter content... (visible to everyone)"
+            onChange={(html: string) => setPublicContent(html)}
+            placeholder="Write your public intro here..."
           />
         </div>
 
-        <div style={{ marginBottom: '24px' }}>
-          <label style={{ display: 'block', marginBottom: '12px', fontWeight: '600', color: '#e2e8f0', fontSize: '14px' }}>
-            Premium Content <span style={{ color: '#64748b', fontWeight: '400' }}>(Optional - NFT holders only)</span>
-          </label>
+        {/* 3. Premium Content - Distinctive "Locked" Section */}
+        <div 
+          className={`editor-wrapper ${activeField === 'premium' ? 'active' : ''}`}
+          style={{ 
+            marginBottom: '60px',
+            paddingLeft: '24px',
+            borderLeft: '4px solid #8b5cf6', // Purple border for premium distinction
+            marginLeft: '-28px' // Pull out to align text with public content
+          }}
+          onFocus={() => setActiveField('premium')}
+          onBlur={(e) => {
+            if (!e.currentTarget.contains(e.relatedTarget)) {
+              setActiveField(null);
+            }
+          }}
+        >
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '16px' }}>
+            <span style={{ fontSize: '16px' }}>🔒</span>
+            <label style={{ fontWeight: '600', color: '#a78bfa', fontSize: '14px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+              Premium Content (NFT Holders Only)
+            </label>
+          </div>
           <KoenigEditor
             initialValue={premiumContent}
-            onChange={(html, markdown) => setPremiumContent(html)}
-            placeholder="Premium content for NFT holders..."
+            onChange={(html: string) => setPremiumContent(html)}
+            placeholder="Add your exclusive analysis, alpha, or deep dive here..."
           />
         </div>
 
+        {/* Submit Button */}
         <button
           type="submit"
           disabled={loading}
           style={{
             width: '100%',
-            padding: '12px',
-            fontSize: '16px',
-            fontWeight: 'bold',
-            color: 'white',
-            background: loading ? '#64748b' : 'linear-gradient(to right, #9333ea, #06b6d4)',
+            height: '64px', // Taller button
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            padding: '0 24px',
+            fontSize: '18px',
+            fontWeight: '700',
+            color: '#ffffff',
+            background: loading ? '#334155' : 'linear-gradient(135deg, #8b5cf6 0%, #06b6d4 100%)',
             border: 'none',
-            borderRadius: '4px',
+            borderRadius: '12px', // Rounder
             cursor: loading ? 'not-allowed' : 'pointer',
+            transition: 'all 0.2s ease',
+            boxShadow: loading ? 'none' : '0 10px 25px -5px rgba(139, 92, 246, 0.4)',
+            marginBottom: '40px'
+          }}
+          onMouseEnter={(e) => {
+            if (!loading) {
+              e.currentTarget.style.transform = 'translateY(-2px)';
+              e.currentTarget.style.filter = 'brightness(1.1)';
+            }
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.transform = 'none';
+            e.currentTarget.style.filter = 'none';
           }}
         >
-          {loading ? 'Publishing...' : 'Publish Issue Now'}
+          {loading ? (
+            <div style={{ 
+              width: '24px', 
+              height: '24px', 
+              border: '3px solid rgba(255,255,255,0.3)', 
+              borderTopColor: '#ffffff', 
+              borderRadius: '50%', 
+              animation: 'spin 1s linear infinite' 
+            }} />
+          ) : 'Publish Issue Now'}
         </button>
+
+        {/* 4. Content ID - Demoted to Bottom (Advanced) */}
+        <div style={{ 
+          borderTop: '1px solid #334155', 
+          paddingTop: '24px',
+          marginTop: '40px'
+        }}>
+          <details style={{ color: '#64748b', cursor: 'pointer' }}>
+            <summary style={{ fontSize: '14px', fontWeight: '500', userSelect: 'none' }}>
+              Advanced: Content ID / Settings
+            </summary>
+            <div style={{ marginTop: '16px' }}>
+              <label style={{ display: 'block', marginBottom: '8px', fontWeight: '500', color: '#64748b', fontSize: '12px' }}>
+                Content ID (On-Chain) {newsletterId && '✅'}
+              </label>
+              <input
+                type="text"
+                value={newsletterId}
+                onChange={(e) => setNewsletterId(e.target.value)}
+                placeholder="0x..."
+                required
+                readOnly={!!newsletterId}
+                style={{
+                  width: '100%',
+                  padding: '10px',
+                  fontSize: '12px',
+                  border: '1px solid #334155',
+                  borderRadius: '6px',
+                  fontFamily: 'monospace',
+                  backgroundColor: '#0f172a',
+                  color: '#94a3b8',
+                  outline: 'none',
+                }}
+              />
+            </div>
+          </details>
+        </div>
+
       </form>
 
       {error && (
         <div
           style={{
+            marginTop: '30px',
             padding: '15px',
             backgroundColor: 'rgba(220, 38, 38, 0.1)',
             border: '1px solid #991b1b',
-            borderRadius: '4px',
+            borderRadius: '8px',
             color: '#fca5a5',
-            marginBottom: '20px',
           }}
         >
           <strong>Error:</strong> {error}
@@ -227,142 +369,151 @@ function TestIssueContent() {
       )}
 
       {result && (
-        <div
-          style={{
-            padding: '20px',
-            backgroundColor: 'rgba(34, 197, 94, 0.1)',
-            border: '1px solid #166534',
-            borderRadius: '4px',
-            color: '#86efac',
-          }}
-        >
-          <h3 style={{ marginTop: 0, color: '#86efac', fontSize: '20px', fontWeight: '600' }}>Issue Published Successfully</h3>
-          <div style={{ fontSize: '14px', marginBottom: '15px', color: '#86efac' }}>
-            <p>
-              <strong>Transaction Hash:</strong>
-              <br />
-              <code style={{ fontSize: '12px', wordBreak: 'break-all', color: '#86efac' }}>
-                {result.transactionDigest}
-              </code>
-            </p>
-            <p>
-              <strong>Walrus Blob ID:</strong>
-              <br />
-              <code style={{ fontSize: '12px', wordBreak: 'break-all', color: '#86efac' }}>
-                {result.blobId || 'Not available'}
-              </code>
-            </p>
-            
-            <div style={{ display: 'flex', gap: '10px', marginTop: '15px', flexWrap: 'wrap' }}>
-              <a
-                href={result.explorerUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                style={{
-                  display: 'inline-block',
-                  padding: '10px 18px',
-                  backgroundColor: '#3b82f6',
-                  color: 'white',
-                  textDecoration: 'none',
-                  borderRadius: '6px',
-                  fontSize: '14px',
-                  fontWeight: '600',
-                }}
-              >
-                View on SuiVision
-              </a>
-              <button
-                onClick={() => fetchContentFromWalrus(result.blobId)}
-                disabled={fetchingContent}
-                style={{
-                  padding: '10px 18px',
-                  background: fetchingContent ? '#64748b' : '#8b5cf6',
-                  color: 'white',
-                  border: 'none',
-                  borderRadius: '6px',
-                  fontSize: '14px',
-                  fontWeight: '600',
-                  cursor: fetchingContent ? 'not-allowed' : 'pointer',
-                }}
-              >
-                {fetchingContent ? 'Loading...' : 'View Content on Walrus'}
-              </button>
-              <a
-                href={`https://walruscan.com/testnet/blob/${result.blobId}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                style={{
-                  display: 'inline-block',
-                  padding: '10px 18px',
-                  backgroundColor: '#06b6d4',
-                  color: 'white',
-                  textDecoration: 'none',
-                  borderRadius: '6px',
-                  fontSize: '14px',
-                  fontWeight: '600',
-                }}
-              >
-                View on Walruscan
-              </a>
-            </div>
-          </div>
-          <div style={{ 
-            marginTop: '15px', 
-            padding: '12px 16px', 
-            backgroundColor: 'rgba(139, 92, 246, 0.1)', 
-            border: '1px solid rgba(139, 92, 246, 0.3)',
-            borderRadius: '6px'
-          }}>
-            <p style={{ fontSize: '14px', color: '#c4b5fd', margin: 0 }}>
-              <strong>✓ Success!</strong> Content stored on Walrus, metadata on Sui - all gasless.
-            </p>
-            <p style={{ fontSize: '13px', color: '#a78bfa', margin: '8px 0 0 0' }}>
-              💡 Tip: Walrus propagation takes 2-5 minutes. Click "View Content on Walrus" to check if it's ready.
-            </p>
-          </div>
-
-          {fetchedContent && (
+        <>
+          {/* Modal Overlay */}
+          <div
+            style={{
+              position: 'fixed',
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              backgroundColor: 'rgba(0, 0, 0, 0.7)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              zIndex: 1000,
+              backdropFilter: 'blur(4px)',
+            }}
+            onClick={() => setResult(null)}
+          >
+            {/* Modal Content */}
             <div
               style={{
-                marginTop: '20px',
-                padding: '20px',
-                backgroundColor: '#1e293b',
+                backgroundColor: '#0f172a',
                 border: '1px solid #334155',
-                borderRadius: '6px',
-                maxHeight: '400px',
-                overflow: 'auto',
+                borderRadius: '16px',
+                padding: '40px',
+                maxWidth: '500px',
+                width: '90%',
+                boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.5)',
+                position: 'relative',
               }}
+              onClick={(e) => e.stopPropagation()}
             >
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
-                <h4 style={{ margin: 0, color: '#e2e8f0', fontSize: '16px', fontWeight: '600' }}>
-                  Published Content Preview
-                </h4>
-                {fetchedContent.includes('Content Not Found') && (
-                  <button
-                    onClick={() => fetchContentFromWalrus(result.blobId)}
-                    disabled={fetchingContent}
-                    style={{
-                      padding: '6px 12px',
-                      fontSize: '13px',
-                      fontWeight: '600',
-                      color: 'white',
-                      background: fetchingContent ? '#64748b' : '#8b5cf6',
-                      border: 'none',
-                      borderRadius: '4px',
-                      cursor: fetchingContent ? 'not-allowed' : 'pointer',
-                    }}
-                  >
-                    {fetchingContent ? 'Retrying...' : 'Retry'}
-                  </button>
-                )}
+              {/* Success Icon */}
+              <div style={{ textAlign: 'center', marginBottom: '24px' }}>
+                <div style={{ 
+                  fontSize: '64px', 
+                  marginBottom: '16px',
+                  animation: 'bounce 1s ease-in-out'
+                }}>
+                  🎉
+                </div>
+                <h3 style={{ 
+                  margin: 0, 
+                  color: '#ffffff',
+                  fontSize: '28px', 
+                  fontWeight: '700',
+                  marginBottom: '8px'
+                }}>
+                  Issue Published Successfully!
+                </h3>
+                <p style={{ 
+                  color: '#94a3b8', 
+                  fontSize: '16px',
+                  margin: 0
+                }}>
+                  Content stored on Walrus, metadata on Sui
+                </p>
               </div>
-              <div
-                style={{ color: '#cbd5e1', fontSize: '14px', lineHeight: '1.6' }}
-                dangerouslySetInnerHTML={{ __html: fetchedContent }}
-              />
+
+              {/* Action Buttons */}
+              <div style={{ 
+                display: 'flex', 
+                flexDirection: 'column',
+                gap: '12px',
+                marginBottom: '20px'
+              }}>
+                <a
+                  href={`/test-read?issueId=${result.issueId}`}
+                  style={{
+                    display: 'block',
+                    padding: '14px 24px',
+                    background: 'linear-gradient(to right, #9333ea, #06b6d4)',
+                    color: 'white',
+                    textDecoration: 'none',
+                    borderRadius: '8px',
+                    fontSize: '16px',
+                    fontWeight: '600',
+                    textAlign: 'center',
+                  }}
+                >
+                  Read Issue →
+                </a>
+              </div>
+
+              {/* Footer Links */}
+              <div style={{ 
+                display: 'flex', 
+                justifyContent: 'center', 
+                gap: '20px',
+                paddingTop: '16px', 
+                borderTop: '1px solid #1e293b' 
+              }}>
+                <a
+                  href={result.explorerUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{
+                    color: '#3b82f6',
+                    textDecoration: 'none',
+                    fontSize: '14px',
+                    fontWeight: '500',
+                  }}
+                  onMouseEnter={(e) => e.currentTarget.style.textDecoration = 'underline'}
+                  onMouseLeave={(e) => e.currentTarget.style.textDecoration = 'none'}
+                >
+                  View on SuiVision ↗
+                </a>
+                <a
+                  href={`https://walruscan.com/testnet/blob/${result.blobId}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{
+                    color: '#22d3ee',
+                    textDecoration: 'none',
+                    fontSize: '14px',
+                    fontWeight: '500',
+                  }}
+                  onMouseEnter={(e) => e.currentTarget.style.textDecoration = 'underline'}
+                  onMouseLeave={(e) => e.currentTarget.style.textDecoration = 'none'}
+                >
+                  View on WalrusScan ↗
+                </a>
+              </div>
+
+              {/* Close Button */}
+              <button
+                onClick={() => setResult(null)}
+                style={{
+                  position: 'absolute',
+                  top: '16px',
+                  right: '16px',
+                  background: 'transparent',
+                  border: 'none',
+                  color: '#64748b',
+                  fontSize: '24px',
+                  cursor: 'pointer',
+                  padding: '4px 8px',
+                  lineHeight: 1,
+                }}
+              >
+                ×
+              </button>
             </div>
-          )}
-        </div>
+          </div>
+        </>
       )}
       </div>
     </div>
@@ -371,7 +522,23 @@ function TestIssueContent() {
 
 export default function TestIssuePage() {
   return (
-    <Suspense fallback={<div style={{ padding: '50px', textAlign: 'center', minHeight: '100vh', backgroundColor: '#020617', color: '#ffffff' }}>Loading...</div>}>
+    <Suspense fallback={<div style={{ 
+      display: 'flex', 
+      justifyContent: 'center', 
+      alignItems: 'center', 
+      height: '100vh', 
+      backgroundColor: '#020617', 
+      color: '#ffffff' 
+    }}>
+      <div style={{ 
+        width: '32px', 
+        height: '32px', 
+        border: '3px solid rgba(255,255,255,0.3)', 
+        borderTopColor: '#ffffff', 
+        borderRadius: '50%', 
+        animation: 'spin 1s linear infinite' 
+      }} />
+    </div>}>
       <TestIssueContent />
     </Suspense>
   );

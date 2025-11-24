@@ -2,8 +2,9 @@
 // Implements Requirements 1.1, 2.1, 2.2, 5.1
 
 import { SuiClient } from '@mysten/sui/client';
+import { fromHex } from '@mysten/sui/utils';
 import { Transaction } from '@mysten/sui/transactions';
-import { Newsletter, Issue, NewsletterAccessNFT, Subscription } from '@/types';
+import { Newsletter, Issue, NewsletterAccessNFT, Subscription, NewsletterType } from '@/types';
 import { WalrusClient } from './walrus';
 import { SealClient, SessionKey } from './seal';
 import { serializeContent, deserializeContent, calculateBoundaries, ContentSection } from './content';
@@ -108,6 +109,7 @@ export class NewsletterService {
       // For now, we'll simulate the response
       const newsletter: Newsletter = {
         id: this.generateId(),
+        type: NewsletterType.BLOCKCHAIN,
         creator: senderAddress,
         title,
         description,
@@ -115,6 +117,7 @@ export class NewsletterService {
         nftCollection,
         sealPackageId,
         createdAt: Date.now(),
+        updatedAt: Date.now(),
         issueCount: 0,
       };
 
@@ -155,9 +158,15 @@ export class NewsletterService {
       const processedSections = [...publicSections];
       
       if (hasPremium) {
-        // Create identity for Seal encryption: [newsletter_id][issue_id]
-        const issueId = this.generateId();
-        const identity = `${newsletterId}:${issueId}`;
+        // Validate seal package ID
+        if (!newsletter.sealPackageId) {
+            throw new NewsletterError('Newsletter missing Seal Package ID', 'INVALID_NEWSLETTER');
+        }
+
+        // Create identity for Seal encryption
+        // Use deterministic identity matching backend: newsletterId repeated (64 bytes hex)
+        const cleanId = newsletter.id.startsWith('0x') ? newsletter.id.slice(2) : newsletter.id;
+        const identity = cleanId + cleanId;
 
         // Encrypt each premium section
         for (const premiumSection of premiumSections) {
@@ -170,10 +179,12 @@ export class NewsletterService {
             data: contentBytes,
           });
 
-          // Add encrypted section
+          // Add encrypted section (Base64 encoded)
+          const encryptedString = Buffer.from(encryptedObject).toString('base64');
+
           processedSections.push({
             type: 'premium',
-            content: new TextDecoder().decode(encryptedObject),
+            content: encryptedString,
             format: premiumSection.format,
           });
         }
@@ -197,6 +208,7 @@ export class NewsletterService {
         walrusBlobId: blobId,
         contentBoundaries: boundaries,
         publishedAt: Date.now(),
+        updatedAt: Date.now(),
         hasPremium,
       };
 
@@ -286,6 +298,7 @@ export class NewsletterService {
 
       const newsletter: Newsletter = {
         id: fields.id.id,
+        type: NewsletterType.BLOCKCHAIN,
         creator: fields.creator,
         title: fields.title,
         description: fields.description,
@@ -297,6 +310,7 @@ export class NewsletterService {
         nftCollection: fields.nft_collection,
         sealPackageId: fields.seal_package_id,
         createdAt: parseInt(fields.created_at),
+        updatedAt: parseInt(fields.created_at),
         issueCount: parseInt(fields.issue_count),
       };
 
@@ -349,6 +363,7 @@ export class NewsletterService {
           encryptedRanges: fields.content_boundaries.fields.encrypted_ranges,
         },
         publishedAt: parseInt(fields.published_at),
+        updatedAt: parseInt(fields.published_at),
         hasPremium: fields.has_premium,
       };
 
@@ -370,6 +385,10 @@ export class NewsletterService {
    * Implements Requirements 3.1, 3.2
    */
   async getIssueContent(issue: Issue): Promise<IssueContent> {
+    if (!issue.walrusBlobId) {
+        throw new NewsletterError('Issue has no content', 'INVALID_CONTENT');
+    }
+
     try {
       // Retrieve content from Walrus
       const contentBytes = await this.walrusClient.retrieve(issue.walrusBlobId);
@@ -619,6 +638,9 @@ export class NewsletterService {
       }
 
       // Step 2: Create session key for decryption (Requirement 4.3)
+      if (!newsletter.sealPackageId) {
+          throw new NewsletterError('Newsletter missing Seal Package ID', 'INVALID_NEWSLETTER');
+      }
       const sessionKey = await this.createSessionKey(userAddress, newsletter.sealPackageId);
 
       // Step 3: Retrieve issue content from Walrus
@@ -641,7 +663,8 @@ export class NewsletterService {
 
       for (const premiumSection of issueContent.premiumSections) {
         try {
-          const encryptedBytes = new TextEncoder().encode(premiumSection.content);
+          // Base64 decode content
+          const encryptedBytes = Uint8Array.from(atob(premiumSection.content), c => c.charCodeAt(0));
           
           const decryptedBytes = await this.sealClient.decrypt({
             data: encryptedBytes,
@@ -656,6 +679,79 @@ export class NewsletterService {
           });
         } catch (error) {
           // Handle decryption failures gracefully (Requirement 4.6)
+          throw new NewsletterError(
+            'Failed to decrypt premium content section',
+            'DECRYPTION_FAILED',
+            error
+          );
+        }
+      }
+
+      return decryptedSections;
+    } catch (error) {
+      if (error instanceof NewsletterError) {
+        throw error;
+      }
+      throw new NewsletterError(
+        'Failed to decrypt premium content',
+        'DECRYPTION_WORKFLOW_FAILED',
+        error
+      );
+    }
+  }
+
+  /**
+   * Decrypt premium content for Subscribers
+   */
+  async decryptPremiumContentWithSubscription(
+    issue: Issue,
+    newsletter: Newsletter,
+    subscription: Subscription,
+    userAddress: string
+  ): Promise<ContentSection[]> {
+    try {
+      // Step 1: Create session key for decryption
+      if (!newsletter.sealPackageId) {
+          throw new NewsletterError('Newsletter missing Seal Package ID', 'INVALID_NEWSLETTER');
+      }
+      const sessionKey = await this.createSessionKey(userAddress, newsletter.sealPackageId);
+
+      // Step 2: Retrieve issue content from Walrus
+      const issueContent = await this.getIssueContent(issue);
+
+      if (!issueContent.hasPremium || issueContent.premiumSections.length === 0) {
+        return [];
+      }
+
+      // Step 3: Construct Seal approval transaction
+      const approvalTxBytes = await this.constructSealApprovalTxForSubscription(
+        issue,
+        newsletter,
+        subscription,
+        userAddress
+      );
+
+      // Step 4: Decrypt premium sections
+      const decryptedSections: ContentSection[] = [];
+
+      for (const premiumSection of issueContent.premiumSections) {
+        try {
+          // Base64 decode content
+          const encryptedBytes = Uint8Array.from(atob(premiumSection.content), c => c.charCodeAt(0));
+          
+          const decryptedBytes = await this.sealClient.decrypt({
+            data: encryptedBytes,
+            sessionKey,
+            txBytes: approvalTxBytes,
+          });
+
+          decryptedSections.push({
+            type: 'premium',
+            content: new TextDecoder().decode(decryptedBytes),
+            format: premiumSection.format,
+          });
+        } catch (error) {
+          // Handle decryption failures gracefully
           throw new NewsletterError(
             'Failed to decrypt premium content section',
             'DECRYPTION_FAILED',
@@ -757,22 +853,72 @@ export class NewsletterService {
     userAddress: string
   ): Promise<Uint8Array> {
     try {
-      // Create identity for this issue: [newsletter_id][issue_id]
-      const identity = `${newsletter.id}:${issue.id}`;
+      // Create identity for this issue
+      // For compatibility with gasless flow, use deterministic 64-byte hex identity
+      const cleanId = newsletter.id.startsWith('0x') ? newsletter.id.slice(2) : newsletter.id;
+      const identity = cleanId + cleanId;
 
       // Build transaction that calls seal_approve_nft
       const tx = new Transaction();
       tx.setSender(userAddress);
 
+      if (!newsletter.sealPackageId) {
+          throw new Error("Seal package ID is missing");
+      }
+
       tx.moveCall({
         target: `${newsletter.sealPackageId}::access_policy::seal_approve_nft`,
         arguments: [
-          tx.pure.vector('u8', Array.from(new TextEncoder().encode(identity))),
+          tx.pure.vector('u8', fromHex(identity)),
           tx.object(nft.id),
         ],
       });
 
       // Build transaction bytes (in real implementation, this would be signed)
+      const txBytes = await tx.build({ client: this.suiClient });
+
+      return txBytes;
+    } catch (error) {
+      throw new NewsletterError(
+        'Failed to construct Seal approval transaction',
+        'APPROVAL_TX_FAILED',
+        error
+      );
+    }
+  }
+
+  /**
+   * Construct Seal approval transaction with Subscription proof
+   */
+  private async constructSealApprovalTxForSubscription(
+    issue: Issue,
+    newsletter: Newsletter,
+    subscription: Subscription,
+    userAddress: string
+  ): Promise<Uint8Array> {
+    try {
+      // Create identity for this issue
+      // For compatibility with gasless flow, use deterministic 64-byte hex identity
+      const cleanId = newsletter.id.startsWith('0x') ? newsletter.id.slice(2) : newsletter.id;
+      const identity = cleanId + cleanId;
+
+      // Build transaction that calls seal_approve_subscription
+      const tx = new Transaction();
+      tx.setSender(userAddress);
+
+      if (!newsletter.sealPackageId) {
+          throw new Error("Seal package ID is missing");
+      }
+
+      tx.moveCall({
+        target: `${newsletter.sealPackageId}::access_policy::seal_approve_subscription`,
+        arguments: [
+          tx.pure.vector('u8', fromHex(identity)),
+          tx.object(subscription.id),
+        ],
+      });
+
+      // Build transaction bytes
       const txBytes = await tx.build({ client: this.suiClient });
 
       return txBytes;

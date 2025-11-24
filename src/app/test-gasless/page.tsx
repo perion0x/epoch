@@ -1,30 +1,8 @@
 'use client';
 
+// KoenigEditor import removed
 import { useState } from 'react';
 import { createGaslessNewsletter } from '@/services/gasless-newsletter';
-import dynamic from 'next/dynamic';
-
-// Dynamically import Koenig editor to avoid SSR issues
-const KoenigEditor = dynamic(() => import('@/components/KoenigEditor').then((mod) => ({ default: mod.KoenigEditor })), {
-  ssr: false,
-  loading: () => (
-    <div
-      style={{
-        minHeight: '200px',
-        padding: '20px',
-        backgroundColor: '#1e293b',
-        border: '2px solid #334155',
-        borderRadius: '6px',
-        color: '#64748b',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-      }}
-    >
-      Loading editor...
-    </div>
-  ),
-});
 
 /**
  * Test page for gasless newsletter creation
@@ -91,21 +69,22 @@ export default function TestGaslessPage() {
       </div>
 
       {/* Two-Column Layout */}
-      <div style={{ 
-        display: 'grid', 
-        gridTemplateColumns: '1fr 1fr',
-        minHeight: 'calc(100vh - 73px)',
-        gap: '0'
-      }}
-      className="two-column-layout"
+      <div 
+        className="two-column-layout"
+        style={{ 
+          minHeight: 'calc(100vh - 73px)',
+          background: 'linear-gradient(135deg, #020617 0%, #0f172a 100%)'
+        }}
       >
         
         {/* Left Column - Value Proposition */}
         <div style={{ 
-          padding: '80px 60px',
+          padding: '40px 60px',
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'center',
+          alignItems: 'center',
+          textAlign: 'center',
           background: 'linear-gradient(135deg, #020617 0%, #0f172a 100%)'
         }}>
           <div style={{ maxWidth: '540px' }}>
@@ -146,72 +125,72 @@ export default function TestGaslessPage() {
                 The Gas-Free Advantage
               </p>
               
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-                <div style={{ display: 'flex', gap: '16px', alignItems: 'start' }}>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '48px', alignItems: 'center' }}>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', alignItems: 'center' }}>
                   <div style={{ 
-                    width: '40px', 
-                    height: '40px', 
-                    borderRadius: '8px',
+                    width: '48px', 
+                    height: '48px', 
+                    borderRadius: '12px',
                     background: 'linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%)',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
                     flexShrink: 0
                   }}>
-                    <span style={{ fontSize: '20px' }}>🔑</span>
+                    <span style={{ fontSize: '24px' }}>🔑</span>
                   </div>
                   <div>
-                    <div style={{ color: '#e2e8f0', fontWeight: '600', marginBottom: '4px' }}>
-                      Temporary Keypair Generated
+                    <div style={{ color: '#e2e8f0', fontWeight: '700', marginBottom: '4px' }}>
+                      Login Without a Wallet
                     </div>
-                    <div style={{ color: '#64748b', fontSize: '14px', lineHeight: '1.5' }}>
-                      A secure keypair is created for your session
+                    <div style={{ color: 'rgba(148, 163, 184, 0.8)', fontSize: '14px', lineHeight: '1.5' }}>
+                      A secure keypair is generated for your session, letting you start publishing <em>instantly</em> without a traditional crypto wallet setup.
                     </div>
                   </div>
                 </div>
 
-                <div style={{ display: 'flex', gap: '16px', alignItems: 'start' }}>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', alignItems: 'center' }}>
                   <div style={{ 
-                    width: '40px', 
-                    height: '40px', 
-                    borderRadius: '8px',
+                    width: '48px', 
+                    height: '48px', 
+                    borderRadius: '12px',
                     background: 'linear-gradient(135deg, #06b6d4 0%, #0891b2 100%)',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
                     flexShrink: 0
                   }}>
-                    <span style={{ fontSize: '20px' }}>⛽</span>
+                    <span style={{ fontSize: '24px' }}>⛽</span>
                   </div>
                   <div>
-                    <div style={{ color: '#e2e8f0', fontWeight: '600', marginBottom: '4px' }}>
-                      Platform Sponsors Gas Fees
+                    <div style={{ color: '#e2e8f0', fontWeight: '700', marginBottom: '4px' }}>
+                      Gas-Free Forever
                     </div>
-                    <div style={{ color: '#64748b', fontSize: '14px', lineHeight: '1.5' }}>
-                      No wallet needed, no transaction costs
+                    <div style={{ color: 'rgba(148, 163, 184, 0.8)', fontSize: '14px', lineHeight: '1.5' }}>
+                      Your platform sponsors all Sui network fees. No wallet needed, <strong>no transaction costs</strong>—ever—for you or your readers.
                     </div>
                   </div>
                 </div>
 
-                <div style={{ display: 'flex', gap: '16px', alignItems: 'start' }}>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', alignItems: 'center' }}>
                   <div style={{ 
-                    width: '40px', 
-                    height: '40px', 
-                    borderRadius: '8px',
+                    width: '48px', 
+                    height: '48px', 
+                    borderRadius: '12px',
                     background: 'linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
                     flexShrink: 0
                   }}>
-                    <span style={{ fontSize: '20px' }}>⛓️</span>
+                    <span style={{ fontSize: '24px' }}>🔗</span>
                   </div>
                   <div>
-                    <div style={{ color: '#e2e8f0', fontWeight: '600', marginBottom: '4px' }}>
-                      Published on Sui Blockchain
+                    <div style={{ color: '#e2e8f0', fontWeight: '700', marginBottom: '4px' }}>
+                      Immutable Content Ownership
                     </div>
-                    <div style={{ color: '#64748b', fontSize: '14px', lineHeight: '1.5' }}>
-                      Immutable, decentralized, and truly yours
+                    <div style={{ color: 'rgba(148, 163, 184, 0.8)', fontSize: '14px', lineHeight: '1.5' }}>
+                      Your newsletter is published directly on the <strong>Sui Blockchain</strong>, ensuring your content is decentralized, immutable, and truly yours from day one.
                     </div>
                   </div>
                 </div>
@@ -222,7 +201,7 @@ export default function TestGaslessPage() {
 
         {/* Right Column - Form */}
         <div style={{ 
-          padding: '80px 60px',
+          padding: '40px 60px',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
@@ -233,10 +212,11 @@ export default function TestGaslessPage() {
               onSubmit={handleSubmit} 
               style={{ 
                 backgroundColor: '#0f172a',
-                padding: '40px',
+                padding: '30px',
                 borderRadius: '16px',
                 border: '1px solid #1e293b',
-                boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.3), 0 10px 10px -5px rgba(0, 0, 0, 0.2)'
+                boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.3), 0 10px 10px -5px rgba(0, 0, 0, 0.2)',
+                minHeight: '400px', // Reduced - no heavy editor loading
               }}
             >
               <div style={{ marginBottom: '24px' }}>
@@ -262,9 +242,11 @@ export default function TestGaslessPage() {
                   }}
                   onFocus={(e) => {
                     e.target.style.borderColor = '#8b5cf6';
+                    e.target.style.boxShadow = '0 0 0 1px rgba(139, 92, 246, 0.2)';
                   }}
                   onBlur={(e) => {
                     e.target.style.borderColor = '#1e293b';
+                    e.target.style.boxShadow = 'none';
                   }}
                 />
               </div>
@@ -284,9 +266,11 @@ export default function TestGaslessPage() {
                 }}
                 onFocus={(e) => {
                   e.currentTarget.style.borderColor = '#8b5cf6';
+                  e.currentTarget.style.boxShadow = '0 0 0 1px rgba(139, 92, 246, 0.2)';
                 }}
                 onBlur={(e) => {
                   e.currentTarget.style.borderColor = '#1e293b';
+                  e.currentTarget.style.boxShadow = 'none';
                 }}
                 >
                   <span style={{ 
@@ -324,15 +308,35 @@ export default function TestGaslessPage() {
 
               <div style={{ marginBottom: '24px' }}>
                 <label style={{ display: 'block', marginBottom: '8px', fontWeight: '600', color: '#e2e8f0', fontSize: '14px' }}>
-                  Description
+                  Short Description <span style={{ color: '#64748b', fontWeight: '400' }}>(For SEO & Previews)</span>
                 </label>
-                <p style={{ marginBottom: '12px', fontSize: '13px', color: '#64748b' }}>
-                  Used for SEO and social media previews
-                </p>
-                <KoenigEditor
-                  initialValue={description}
-                  onChange={(html, markdown) => setDescription(html)}
-                  placeholder="What will you write about? Describe your newsletter..."
+                <textarea
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
+                  placeholder="What is your newsletter about?"
+                  rows={4}
+                  style={{
+                    width: '100%',
+                    padding: '12px 14px',
+                    fontSize: '16px',
+                    border: '2px solid #1e293b',
+                    borderRadius: '8px',
+                    backgroundColor: '#1e293b',
+                    color: '#ffffff',
+                    transition: 'all 0.2s',
+                    outline: 'none',
+                    resize: 'none',
+                    fontFamily: 'inherit',
+                    lineHeight: '1.5',
+                  }}
+                  onFocus={(e) => {
+                    e.target.style.borderColor = '#8b5cf6';
+                    e.target.style.boxShadow = '0 0 0 1px rgba(139, 92, 246, 0.2)';
+                  }}
+                  onBlur={(e) => {
+                    e.target.style.borderColor = '#1e293b';
+                    e.target.style.boxShadow = 'none';
+                  }}
                 />
               </div>
 
@@ -341,25 +345,43 @@ export default function TestGaslessPage() {
                 disabled={loading}
                 style={{
                   width: '100%',
-                  padding: '16px',
+                  height: '56px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  padding: '0 16px',
                   fontSize: '16px',
                   fontWeight: '600',
                   color: 'white',
-                  background: loading ? '#64748b' : '#8b5cf6',
+                  background: loading ? '#64748b' : 'linear-gradient(135deg, #8b5cf6 0%, #06b6d4 100%)',
                   border: 'none',
                   borderRadius: '8px',
                   cursor: loading ? 'not-allowed' : 'pointer',
+                  transition: 'all 0.2s ease-in-out',
                 }}
                 onMouseEnter={(e) => {
                   if (!loading) {
-                    e.currentTarget.style.background = '#7c3aed';
+                    e.currentTarget.style.transform = 'translateY(-1px)';
+                    e.currentTarget.style.boxShadow = '0 4px 12px rgba(139, 92, 246, 0.3)';
+                    e.currentTarget.style.filter = 'brightness(1.1)';
                   }
                 }}
                 onMouseLeave={(e) => {
-                  e.currentTarget.style.background = loading ? '#64748b' : '#8b5cf6';
+                  e.currentTarget.style.transform = 'none';
+                  e.currentTarget.style.boxShadow = 'none';
+                  e.currentTarget.style.filter = 'none';
                 }}
               >
-                {loading ? 'Creating...' : 'Launch Newsletter for Free'}
+                {loading ? (
+                  <div style={{ 
+                    width: '24px', 
+                    height: '24px', 
+                    border: '3px solid rgba(255,255,255,0.3)', 
+                    borderTopColor: '#ffffff', 
+                    borderRadius: '50%', 
+                    animation: 'spin 1s linear infinite' 
+                  }} />
+                ) : 'Launch Newsletter for Free'}
               </button>
             </form>
 
@@ -401,7 +423,7 @@ export default function TestGaslessPage() {
             <div
               style={{
                 backgroundColor: '#0f172a',
-                border: '2px solid #10b981',
+                border: '1px solid #334155', // Changed from Green to Theme Border
                 borderRadius: '16px',
                 padding: '40px',
                 maxWidth: '500px',
@@ -422,7 +444,7 @@ export default function TestGaslessPage() {
                 </div>
                 <h3 style={{ 
                   margin: 0, 
-                  color: '#10b981', 
+                  color: '#ffffff', // Changed from Green to White
                   fontSize: '28px', 
                   fontWeight: '700',
                   marginBottom: '8px'

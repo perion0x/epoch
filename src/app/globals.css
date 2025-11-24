@@ -3445,51 +3445,25 @@ main {
 }
 
 /* Two-Column Layout Responsive - Page-Specific for /test-gasless */
-/* Keep side-by-side layout at all screen sizes */
-/* Removed stacking behavior - columns stay left and right */
+.two-column-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+}
 
-/* Gasless Page Container - Force immediate rendering with no changes */
+@media (max-width: 1024px) {
+  .two-column-layout {
+    grid-template-columns: 1fr;
+  }
+  
+  .two-column-layout > div {
+    padding: 40px 20px !important;
+  }
+}
+
+/* Gasless Page Container */
 .gasless-page-container {
-  min-height: 100vh !important;
-  background: linear-gradient(135deg, #020617 0%, #0f172a 100%) !important;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif !important;
-  -webkit-font-smoothing: antialiased !important;
-  -moz-osx-font-smoothing: grayscale !important;
-}
-
-/* Apply background to body when gasless page is loaded */
-body:has(.gasless-page-container),
-html:has(.gasless-page-container) {
-  background: linear-gradient(135deg, #020617 0%, #0f172a 100%) !important;
-  min-height: 100vh !important;
-  margin: 0 !important;
-  padding: 0 !important;
-  overflow-x: hidden !important;
-}
-
-/* CRITICAL: Disable ALL transitions, animations, and transforms */
-.gasless-page-container,
-.gasless-page-container *,
-.gasless-page-container *::before,
-.gasless-page-container *::after {
-  transition: none !important;
-  animation: none !important;
-  transform: none !important;
-  font-synthesis: none !important;
-  text-rendering: optimizeLegibility !important;
-}
-
-/* Prevent font loading layout shift */
-.gasless-page-container * {
-  font-family: inherit !important;
-}
-
-/* Force stable rendering - prevent any size changes */
-.gasless-page-container h1,
-.gasless-page-container input,
-.gasless-page-container textarea,
-.gasless-page-container button {
-  font-size: inherit !important;
-  line-height: inherit !important;
-  box-sizing: border-box !important;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #020617 0%, #0f172a 100%);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
